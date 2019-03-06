@@ -10,13 +10,14 @@ import UIKit
 
 class MainScreen: UIViewController {
 
+
     @IBAction func SwapToTime(_ sender: Any) {
         self.performSegue(withIdentifier: "MainToTime", sender: self)
     }
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
     }
     
 }
