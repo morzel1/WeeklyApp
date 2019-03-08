@@ -9,7 +9,7 @@
 import UIKit
 import Foundation
 
-class TimeSet: UIViewController {
+class TimeSet: UIViewController, UITextFieldDelegate{
     let timePicker = UIDatePicker()
     var dropMenu = dropDownButton()
     //Code for the cancel button
@@ -39,22 +39,48 @@ class TimeSet: UIViewController {
     @objc func doneClicked(){
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .none
-        dateFormatter.timeStyle = .medium
+        dateFormatter.timeStyle = .short //.short gives hours and minutes, .medium gives seconds
         
         TimePickView.text = dateFormatter.string(from: timePicker.date)
         self.view.endEditing(true)
     }
     //End of time picker code
     
+    //Start of Name picker code
+    @IBOutlet weak var EventName: UITextField!
+        func createNamePicker(){
+        let toolbar = UIToolbar()
+        toolbar.sizeToFit()
+            
+        let NameDoneButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.done, target: self, action: #selector(self.textFieldShouldReturn(_:)))
+            
+        toolbar.setItems([NameDoneButton], animated:true)
+        EventName.inputAccessoryView = toolbar
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        if textField == EventName {
+            textField.resignFirstResponder()
+            EventName.becomeFirstResponder()
+        }else{
+            EventName.resignFirstResponder()
+        }
+        let name: String = EventName.text!
+        print("\(name)")
+        return true
+    }
+    //End of name picker
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         //initializes the time picker
         createDatePicker()
-        
+        createNamePicker()
+        EventName.delegate = self
         //dropdown menu initialize and creation
         dropMenu = dropDownButton.init(frame: CGRect(x: 0, y:0, width:0, height: 0))
         dropMenu.setTitle("Day", for: .normal)
+        dropMenu.titleLabel?.textAlignment = .center
         dropMenu.translatesAutoresizingMaskIntoConstraints = false // turn off auto resize, it messes with the other constraints
         
         self.view.addSubview(dropMenu)
@@ -70,6 +96,7 @@ class TimeSet: UIViewController {
 
     
 }
+
 
 /*----------------------------------------------------------------------------------------*/
 //code for dropdown menu
@@ -198,6 +225,7 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource{
         var cell = UITableViewCell()
         cell.textLabel?.text = dropDownOptions[indexPath.row]
         cell.backgroundColor = UIColor.darkGray
+        cell.textLabel?.textAlignment = .center
         return cell
     }
     
