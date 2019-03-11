@@ -8,9 +8,11 @@
 
 import UIKit
 import Foundation
+import SQLite3
 
 class TimeSet: UIViewController, UITextFieldDelegate{
     let timePicker = UIDatePicker()
+    let DBHelper = EntryDB()
     var dropMenu = dropDownButton()
     //Code for the cancel button
     @IBAction func returnToMain(_ sender: Any) {
@@ -18,7 +20,12 @@ class TimeSet: UIViewController, UITextFieldDelegate{
     }
     //End of cancel button
     
-    
+    //Code for confirm button
+    @IBAction func confirmButton(_ sender: Any) {
+        EntryDB.ConfirmButtonDB(DBHelper)(arg: EventName.text!, arg: TimePickView.text!, arg: (dropMenu.titleLabel?.text!)!)
+        self.performSegue(withIdentifier: "TimeToMain", sender: self)
+    }
+    //End of confirm button
     
     //Code for time picker field, perhaps make it bigger
     @IBOutlet weak var TimePickView: UITextField!
