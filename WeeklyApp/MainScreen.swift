@@ -17,7 +17,7 @@ class MainScreen: UIViewController {
     
     
     @IBAction func testDB(_ sender: Any) {
-        EntryDB.readTable(DBHelper)()
+        EntryDB.ReturnFullTable(DBHelper)()
     }
     
     @IBAction func deleteDB(_ sender: Any) {
@@ -36,6 +36,7 @@ class MainScreen: UIViewController {
         sqlite3_close(db)
         print("Deleted")
     } //end of delete db
+    
     
     
     override func viewDidLoad() {

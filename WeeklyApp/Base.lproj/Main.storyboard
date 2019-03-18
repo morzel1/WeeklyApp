@@ -31,20 +31,20 @@
                                     </navigationItem>
                                 </items>
                             </navigationBar>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IQz-pO-87k">
-                                <rect key="frame" x="119" y="267" width="137" height="99"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Read Table"/>
-                                <connections>
-                                    <action selector="testDB:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tfy-GM-HXH"/>
-                                </connections>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gtt-EC-TJk">
-                                <rect key="frame" x="106" y="410" width="162" height="107"/>
+                                <rect key="frame" x="0.0" y="560" width="162" height="107"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <state key="normal" title="Delete table"/>
                                 <connections>
                                     <action selector="deleteDB:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3D7-to-wmU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IQz-pO-87k">
+                                <rect key="frame" x="0.0" y="445" width="137" height="99"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Read Table"/>
+                                <connections>
+                                    <action selector="testDB:" destination="BYZ-38-t0r" eventType="touchUpInside" id="tfy-GM-HXH"/>
                                 </connections>
                             </button>
                         </subviews>

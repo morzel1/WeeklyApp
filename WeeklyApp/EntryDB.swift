@@ -38,7 +38,7 @@ public class EntryDB{
         ConfirmDB() //opens the DB and creates the table if it doesn't already exist
         var stmt: OpaquePointer?
         
-        let insertQuery = "INSERT INTO Tasks(TaskName, TaskTime, TaskDay, TaskStatus) VALUES (?,?,?,False)"
+        let insertQuery = "INSERT INTO Tasks(TaskName, TaskTime, TaskDay, TaskStatus) VALUES (?,?,?,0)"
         
         if sqlite3_prepare(db, insertQuery, -1, &stmt, nil) != SQLITE_OK{
             print("Error running query")
@@ -95,4 +95,54 @@ public class EntryDB{
         }
     } // end of read table func
 
+    //beginning of return full table
+    func ReturnFullTable(){
+        struct EventObject{
+            let id: Int
+            let name: String
+            let time: String
+            let day: String
+            let status: String
+        }
+        var list = [EventObject]()
+        
+        var selectStatement: OpaquePointer?
+        var db: OpaquePointer?
+        
+        let fileUrl = try! //try is an exception incase something goes wrong
+            FileManager.default.url(for: .documentDirectory, //creates file for document directory
+                in: .userDomainMask, appropriateFor: nil,create: //creates the file inside user domain mask, create true creates a new file every time, false makes it only if it doesn't already exist
+                false).appendingPathComponent("TaskDatabase.sqlite") //the actual file name
+        
+        if sqlite3_open(fileUrl.path, &db) != SQLITE_OK{    //
+            print("Error opening DB")
+        }
+        
+        let selectSql = "select * from Tasks"
+        if sqlite3_prepare_v2(db, selectSql, -1, &selectStatement, nil) == SQLITE_OK{
+            while sqlite3_step(selectStatement) == SQLITE_ROW{
+                let rowID = sqlite3_column_int(selectStatement,0)
+                let name = sqlite3_column_text (selectStatement,1)
+                let time = sqlite3_column_text(selectStatement,2)
+                let day = sqlite3_column_text(selectStatement,3)
+                let status = sqlite3_column_text(selectStatement, 4)
+                
+                let nameString = String(cString: name!)
+                let timeString = String(cString: time!)
+                let dayString = String(cString: day!)
+                let status2 = String(cString: status!)
+                
+                print("\(rowID) \(nameString) \(timeString) \(dayString) \(status2)")
+                let elm = EventObject(id: Int(rowID), name: nameString, time: timeString, day: dayString, status: status2)
+                list.append(elm)
+            }
+        } //end of if statement for printing table
+        
+        if(sqlite3_prepare_v2(db, selectSql, -1, &selectStatement, nil) == SQLITE_OK){
+            for index in 0...list.count-1{
+                print(list[index])
+            }
+        }
+    } // end of return full table
+    
 }//End of EntryDB class
