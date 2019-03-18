@@ -22,8 +22,17 @@ class TimeSet: UIViewController, UITextFieldDelegate{
     
     //Code for confirm button
     @IBAction func confirmButton(_ sender: Any) {
-        EntryDB.ConfirmButtonDB(DBHelper)(arg: EventName.text!, arg: TimePickView.text!, arg: (dropMenu.titleLabel?.text!)!)
-        self.performSegue(withIdentifier: "TimeToMain", sender: self)
+        //check for empty field
+        if(EventName.text != nil && TimePickView.text != nil && dropMenu.titleLabel?.text! != "Day"){ 
+            EntryDB.ConfirmButtonDB(DBHelper)(arg: EventName.text!, arg: TimePickView.text!, arg: (dropMenu.titleLabel?.text!)!)
+            self.performSegue(withIdentifier: "TimeToMain", sender: self)
+        } else{
+            let alertController = UIAlertController(title: "Incomplete Field", message:
+                "Please fill out all fields", preferredStyle: .alert)
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: .default))
+            
+            self.present(alertController, animated: true, completion: nil)
+        }
     }
     //End of confirm button
     

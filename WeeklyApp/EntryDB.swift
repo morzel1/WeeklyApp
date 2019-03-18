@@ -90,7 +90,9 @@ public class EntryDB{
                 
                 print("\(rowID) \(nameString) \(timeString) \(dayString) \(status2)")
             }
+        } else {
+            print("table empty")
         }
-    }
+    } // end of read table func
 
 }//End of EntryDB class
