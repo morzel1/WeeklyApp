@@ -13,6 +13,18 @@ public class EntryDB{
     var selectStatement: OpaquePointer?
     var db: OpaquePointer?
     
+    struct EventObject{
+        let id: Int
+        let name: String
+        let time: String
+        let day: String
+        let status: String
+    }
+    
+    struct MainListStruct{
+        static var MainList: Array<EventObject> = []
+    }
+    
     func ConfirmDB(){
         let fileUrl = try! //try is an exception incase something goes wrong
             FileManager.default.url(for: .documentDirectory, //creates file for document directory
@@ -94,20 +106,14 @@ public class EntryDB{
             print("table empty")
         }
     } // end of read table func
-
+    
+    
+    
     //beginning of return full table
     func ReturnFullTable(){
-        struct EventObject{
-            let id: Int
-            let name: String
-            let time: String
-            let day: String
-            let status: String
-        }
-        var list = [EventObject]()
-        
         var selectStatement: OpaquePointer?
         var db: OpaquePointer?
+        var list: Array<EventObject> = []
         
         let fileUrl = try! //try is an exception incase something goes wrong
             FileManager.default.url(for: .documentDirectory, //creates file for document directory
@@ -132,7 +138,7 @@ public class EntryDB{
                 let dayString = String(cString: day!)
                 let status2 = String(cString: status!)
                 
-                print("\(rowID) \(nameString) \(timeString) \(dayString) \(status2)")
+                //print("\(rowID) \(nameString) \(timeString) \(dayString) \(status2)")
                 let elm = EventObject(id: Int(rowID), name: nameString, time: timeString, day: dayString, status: status2)
                 list.append(elm)
             }
@@ -140,9 +146,13 @@ public class EntryDB{
         
         if(sqlite3_prepare_v2(db, selectSql, -1, &selectStatement, nil) == SQLITE_OK){
             for index in 0...list.count-1{
-                print(list[index])
+                //print(list[index])
             }
-        }
+        }//end of if statement to print out the list
+        MainListStruct.MainList = list
+
     } // end of return full table
+    
+    
     
 }//End of EntryDB class

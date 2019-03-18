@@ -11,13 +11,43 @@ import SQLite3
 
 class MainScreen: UIViewController {
     let DBHelper = EntryDB()
+    /*
+    struct EventObject{
+        let id: Int
+        let name: String
+        let time: String
+        let day: String
+        let status: String
+    }
+    var list: Array<EventObject> = []
+    
+    struct MainListStruct{
+        static var MainList: Array<EventObject> = []
+    }
+*/
+    /* --------------------------------------------------------------------*/
     @IBAction func SwapToTime(_ sender: Any) {
         self.performSegue(withIdentifier: "MainToTime", sender: self)
     }
     
+    /*
+ print(MainScreen.MainListStruct.MainList)
+*/
     
     @IBAction func testDB(_ sender: Any) {
+        struct EventObject{
+            let id: Int
+            let name: String
+            let time: String
+            let day: String
+            let status: String
+        }
+        var list: Array<EventObject> = []
+
         EntryDB.ReturnFullTable(DBHelper)()
+        print("Testing read table button")
+        print(EntryDB.MainListStruct.MainList)
+        
     }
     
     @IBAction func deleteDB(_ sender: Any) {
@@ -35,6 +65,8 @@ class MainScreen: UIViewController {
         sqlite3_exec(db, "DROP TABLE Tasks",nil,nil,nil)
         sqlite3_close(db)
         print("Deleted")
+        EntryDB.ReturnFullTable(DBHelper)()
+        print("New List \(EntryDB.MainListStruct.MainList)")
     } //end of delete db
     
     
