@@ -35,7 +35,7 @@ class MainScreen: UIViewController {
 */
     
     @IBAction func testDB(_ sender: Any) {
-        struct EventObject{
+        /*struct EventObject{
             let id: Int
             let name: String
             let time: String
@@ -43,12 +43,16 @@ class MainScreen: UIViewController {
             let status: String
         }
         var list: Array<EventObject> = []
-
+*/
         EntryDB.ReturnFullTable(DBHelper)()
         print("Testing read table button")
         //print(EntryDB.MainListStruct.MainList)
-        print(EntryDB.MainListStruct.MainList.count)
-        print(EntryDB.MainListStruct.MainList[1].name)
+        if(EntryDB.MainListStruct.MainList.count != 0){
+            print(EntryDB.MainListStruct.MainList.count)
+            print(EntryDB.MainListStruct.MainList[0].name)
+        } else {
+            print("Global variable is empty")
+        }
     }
     
     @IBAction func deleteDB(_ sender: Any) {
