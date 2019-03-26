@@ -46,8 +46,9 @@ class MainScreen: UIViewController {
 
         EntryDB.ReturnFullTable(DBHelper)()
         print("Testing read table button")
-        print(EntryDB.MainListStruct.MainList)
-        
+        //print(EntryDB.MainListStruct.MainList)
+        print(EntryDB.MainListStruct.MainList.count)
+        print(EntryDB.MainListStruct.MainList[1].name)
     }
     
     @IBAction func deleteDB(_ sender: Any) {
