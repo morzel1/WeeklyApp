@@ -9,23 +9,14 @@
 import UIKit
 import SQLite3
 
-class MainScreen: UIViewController {
-    let DBHelper = EntryDB()
-    /*
-    struct EventObject{
-        let id: Int
-        let name: String
-        let time: String
-        let day: String
-        let status: String
-    }
-    var list: Array<EventObject> = []
+class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
-    struct MainListStruct{
-        static var MainList: Array<EventObject> = []
-    }
-*/
-    /* --------------------------------------------------------------------*/
+    @IBOutlet weak var MainTable: UITableView!
+
+    let DBHelper = EntryDB()
+
+
+
     @IBAction func SwapToTime(_ sender: Any) {
         self.performSegue(withIdentifier: "MainToTime", sender: self)
     }
@@ -72,13 +63,29 @@ class MainScreen: UIViewController {
         print("Deleted")
         EntryDB.ReturnFullTable(DBHelper)()
         print("New List \(EntryDB.MainListStruct.MainList)")
+        self.MainTable.reloadData()
     } //end of delete db
     
+    //Table view code
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+            return EntryDB.MainListStruct.MainList.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! TableView1
+        cell.refcell.text = EntryDB.MainListStruct.MainList[indexPath.row].name
+        return cell
+    }
+    //end of table view code
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        EntryDB.ReturnFullTable(DBHelper)()
+        self.MainTable.reloadData()
     }
     
 }
+
+
 

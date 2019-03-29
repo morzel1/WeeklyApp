@@ -71,6 +71,7 @@ public class EntryDB{
         if sqlite3_step(stmt) == SQLITE_DONE{
             print("SQlite ran")
         }
+        ReturnFullTable()
     } //end of ConfirmButtonDB func
     
     func readTable(){

@@ -13,6 +13,7 @@
 		0C03AEBF222ED8C500311DD1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0C03AEBE222ED8C500311DD1 /* Assets.xcassets */; };
 		0C03AEC2222ED8C500311DD1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0C03AEC0222ED8C500311DD1 /* LaunchScreen.storyboard */; };
 		2704B4E6222F202C00DFE874 /* TimeSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2704B4E5222F202C00DFE874 /* TimeSet.swift */; };
+		270B53E7224E919900DD0F53 /* TableViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270B53E6224E919900DD0F53 /* TableViewCells.swift */; };
 		270D7DE32236F49400F1F783 /* EntryDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 270D7DE22236F49400F1F783 /* EntryDB.swift */; };
 /* End PBXBuildFile section */
 
@@ -25,6 +26,7 @@
 		0C03AEC1222ED8C500311DD1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0C03AEC3222ED8C600311DD1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2704B4E5222F202C00DFE874 /* TimeSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSet.swift; sourceTree = "<group>"; };
+		270B53E6224E919900DD0F53 /* TableViewCells.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCells.swift; sourceTree = "<group>"; };
 		270D7DE22236F49400F1F783 /* EntryDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryDB.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -60,6 +62,7 @@
 			children = (
 				0C03AEB7222ED8C300311DD1 /* AppDelegate.swift */,
 				0C03AEB9222ED8C400311DD1 /* MainScreen.swift */,
+				270B53E6224E919900DD0F53 /* TableViewCells.swift */,
 				2704B4E5222F202C00DFE874 /* TimeSet.swift */,
 				270D7DE22236F49400F1F783 /* EntryDB.swift */,
 				0C03AEBE222ED8C500311DD1 /* Assets.xcassets */,
@@ -150,6 +153,7 @@
 				270D7DE32236F49400F1F783 /* EntryDB.swift in Sources */,
 				0C03AEBA222ED8C400311DD1 /* MainScreen.swift in Sources */,
 				2704B4E6222F202C00DFE874 /* TimeSet.swift in Sources */,
+				270B53E7224E919900DD0F53 /* TableViewCells.swift in Sources */,
 				0C03AEB8222ED8C300311DD1 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
