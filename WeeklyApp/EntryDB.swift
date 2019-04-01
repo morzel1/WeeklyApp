@@ -152,7 +152,8 @@ public class EntryDB{
         }//end of if statement to print out the list
         MainListStruct.MainList = list
 
-    } // end of return full table
+    }
+    // end of return full table
     
     
     

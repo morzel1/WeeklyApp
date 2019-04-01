@@ -11,4 +11,8 @@ import UIKit
 class TableView1: UITableViewCell {
     @IBOutlet weak var refcell: UILabel!
     
+    @IBOutlet weak var textbox: UITextView!
+    
+    
+    @IBOutlet weak var switchButton: UIButton!
 }

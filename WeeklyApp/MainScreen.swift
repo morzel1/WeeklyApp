@@ -12,7 +12,7 @@ import SQLite3
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet weak var MainTable: UITableView!
-
+    
     let DBHelper = EntryDB()
 
 
@@ -71,9 +71,27 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
             return EntryDB.MainListStruct.MainList.count
     }
 
+    let checkedImage = UIImage(named: "icons8-tick-box-80")! as UIImage
+    let uncheckedImage = UIImage(named: "icons8-tick-box-80")! as UIImage
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! TableView1
-        cell.refcell.text = EntryDB.MainListStruct.MainList[indexPath.row].name
+        
+        cell.refcell.text = EntryDB.MainListStruct.MainList[indexPath.row].name + "\nResets every " + EntryDB.MainListStruct.MainList[indexPath.row].day + " at " + EntryDB.MainListStruct.MainList[indexPath.row].time
+
+
+        if(EntryDB.MainListStruct.MainList[indexPath.row].status == "0"){
+            /*cell.switchButton.setImage(UIImage(named: "ic_check_box_outline_blank"), for: UIControl.State.normal)*/
+            cell.switchButton.setImage(uncheckedImage, for: UIControl.State.normal)
+        } else {
+            //cell.switchButton.setImage(UIImage(named: "ic_check_box"), for: UIControl.State.normal)
+            cell.switchButton.setImage(checkedImage, for: UIControl.State.normal)
+        }
+        //cell.switchButton.centerYAnchor.
+        //cell.switchButton.center = cell.refcell.center
+        cell.switchButton.centerYAnchor.constraint(equalTo: cell.refcell.centerYAnchor).isActive = true
+
+        //cell.textbox.text = EntryDB.MainListStruct.MainList[indexPath.row].time
         return cell
     }
     //end of table view code
@@ -83,6 +101,9 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         super.viewDidLoad()
         EntryDB.ReturnFullTable(DBHelper)()
         self.MainTable.reloadData()
+        MainTable.rowHeight = UITableView.automaticDimension
+        MainTable.estimatedRowHeight = 100
+        
     }
     
 }
