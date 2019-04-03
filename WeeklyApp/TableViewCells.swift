@@ -9,8 +9,9 @@
 import UIKit
 
 class TableView1: UITableViewCell {
-    @IBOutlet weak var refcell: UILabel!
     
+    @IBOutlet weak var titlecell: UITextView!
+    @IBOutlet weak var refcell: UITextView!
     @IBOutlet weak var textbox: UITextView!
     
     @IBOutlet weak var cellView: UIView!

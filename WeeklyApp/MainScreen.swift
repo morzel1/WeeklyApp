@@ -77,7 +77,9 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! TableView1
         
-        cell.refcell.text = EntryDB.MainListStruct.MainList[indexPath.row].name + "\nResets every " + EntryDB.MainListStruct.MainList[indexPath.row].day + " at " + EntryDB.MainListStruct.MainList[indexPath.row].time
+        cell.titlecell.text = EntryDB.MainListStruct.MainList[indexPath.row].name
+        
+        cell.refcell.text = "Resets every " + EntryDB.MainListStruct.MainList[indexPath.row].day + " at " + EntryDB.MainListStruct.MainList[indexPath.row].time
 
 
         if(EntryDB.MainListStruct.MainList[indexPath.row].status == "0"){
@@ -93,6 +95,9 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //cell.switchButton.center = cell.center
         cell.switchButton.centerYAnchor.constraint(equalTo: cell.cellView.centerYAnchor).isActive = true
 
+        cell.preservesSuperviewLayoutMargins = false
+        cell.separatorInset = UIEdgeInsets.zero
+        cell.layoutMargins = UIEdgeInsets.zero
         //cell.textbox.text = EntryDB.MainListStruct.MainList[indexPath.row].time
         return cell
     }
@@ -104,7 +109,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         EntryDB.ReturnFullTable(DBHelper)()
         self.MainTable.reloadData()
         MainTable.rowHeight = UITableView.automaticDimension
-        MainTable.estimatedRowHeight = 100
+        //MainTable.estimatedRowHeight = 100
         
         
     }
