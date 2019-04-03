@@ -55,7 +55,7 @@
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="cell1" textLabel="2du-b5-5gL" rowHeight="88" style="IBUITableViewCellStyleDefault" id="R5Q-OP-LzD" customClass="TableView1" customModule="WeeklyApp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="375" height="88"/>
                                         <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="R5Q-OP-LzD" id="gxB-aJ-7Y3">
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="R5Q-OP-LzD" id="gxB-aJ-7Y3" userLabel="cellView">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="87.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
@@ -77,6 +77,7 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="cellView" destination="gxB-aJ-7Y3" id="DPt-Lp-gw7"/>
                                             <outlet property="refcell" destination="2du-b5-5gL" id="aCZ-Xi-pWu"/>
                                             <outlet property="switchButton" destination="DUm-d6-uH1" id="CnG-BE-pf6"/>
                                         </connections>

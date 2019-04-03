@@ -87,9 +87,11 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
             //cell.switchButton.setImage(UIImage(named: "ic_check_box"), for: UIControl.State.normal)
             cell.switchButton.setImage(checkedImage, for: UIControl.State.normal)
         }
+        //MainTable.rowHeight = UITableView.automaticDimension
+        //MainTable.estimatedRowHeight = 100
         //cell.switchButton.centerYAnchor.
-        //cell.switchButton.center = cell.refcell.center
-        cell.switchButton.centerYAnchor.constraint(equalTo: cell.refcell.centerYAnchor).isActive = true
+        //cell.switchButton.center = cell.center
+        cell.switchButton.centerYAnchor.constraint(equalTo: cell.cellView.centerYAnchor).isActive = true
 
         //cell.textbox.text = EntryDB.MainListStruct.MainList[indexPath.row].time
         return cell
@@ -103,6 +105,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         self.MainTable.reloadData()
         MainTable.rowHeight = UITableView.automaticDimension
         MainTable.estimatedRowHeight = 100
+        
         
     }
     
