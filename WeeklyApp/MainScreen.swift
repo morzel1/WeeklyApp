@@ -14,11 +14,17 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var MainTable: UITableView!
     
     let DBHelper = EntryDB()
-
-
+    
 
     @IBAction func SwapToTime(_ sender: Any) {
         self.performSegue(withIdentifier: "MainToTime", sender: self)
+    }
+    
+    
+    @IBAction func checkBoxPressed(_ sender: UIButton) {
+        let buttonTag = sender.tag
+        DBHelper.updateTableCheckboxPressed(arg: buttonTag)
+        self.MainTable.reloadData()
     }
     
     /*
@@ -72,7 +78,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     }
 
     let checkedImage = UIImage(named: "icons8-tick-box-80")! as UIImage
-    let uncheckedImage = UIImage(named: "icons8-tick-box-80")! as UIImage
+    let uncheckedImage = UIImage(named: "icons8-cancel-80")! as UIImage
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         var cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! TableView1
@@ -95,12 +101,17 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //cell.switchButton.center = cell.center
         cell.switchButton.centerYAnchor.constraint(equalTo: cell.cellView.centerYAnchor).isActive = true
 
+        cell.switchButton.tag = indexPath.row;
+        
+        //for stretching the dividers
         cell.preservesSuperviewLayoutMargins = false
         cell.separatorInset = UIEdgeInsets.zero
         cell.layoutMargins = UIEdgeInsets.zero
         //cell.textbox.text = EntryDB.MainListStruct.MainList[indexPath.row].time
         return cell
     }
+    
+    
     //end of table view code
     
     
