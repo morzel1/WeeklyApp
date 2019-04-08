@@ -14,6 +14,7 @@ class TimeSet: UIViewController, UITextFieldDelegate{
     let timePicker = UIDatePicker()
     let DBHelper = EntryDB()
     var dropMenu = dropDownButton()
+    
     //Code for the cancel button
     @IBAction func returnToMain(_ sender: Any) {
         self.performSegue(withIdentifier: "TimeToMain", sender: self)
@@ -52,6 +53,7 @@ class TimeSet: UIViewController, UITextFieldDelegate{
         
     }
     
+    //code for when the confirm button is clicked
     @objc func doneClicked(){
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .none
@@ -62,9 +64,10 @@ class TimeSet: UIViewController, UITextFieldDelegate{
     }
     //End of time picker code
     
+    
     //Start of Name picker code
     @IBOutlet weak var EventName: UITextField!
-        func createNamePicker(){
+    func createNamePicker(){
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
             
@@ -74,6 +77,7 @@ class TimeSet: UIViewController, UITextFieldDelegate{
         EventName.inputAccessoryView = toolbar
     }
     
+    //code for what the done button on keyboard popup does
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == EventName {
             textField.resignFirstResponder()
@@ -238,7 +242,7 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = UITableViewCell()
+        let cell = UITableViewCell()
         cell.textLabel?.text = dropDownOptions[indexPath.row]
         cell.backgroundColor = UIColor.darkGray
         cell.textLabel?.textAlignment = .center

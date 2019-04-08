@@ -74,49 +74,15 @@ public class EntryDB{
         ReturnFullTable()
     } //end of ConfirmButtonDB func
     
-    func readTable(){
-        var selectStatement: OpaquePointer?
-        var db: OpaquePointer?
-        
-        let fileUrl = try! //try is an exception incase something goes wrong
-            FileManager.default.url(for: .documentDirectory, //creates file for document directory
-                in: .userDomainMask, appropriateFor: nil,create: //creates the file inside user domain mask, create true creates a new file every time, false makes it only if it doesn't already exist
-                false).appendingPathComponent("TaskDatabase.sqlite") //the actual file name
-        
-        if sqlite3_open(fileUrl.path, &db) != SQLITE_OK{    //
-            print("Error opening DB")
-        }
-        
-        let selectSql = "select * from Tasks"
-        if sqlite3_prepare_v2(db, selectSql, -1, &selectStatement, nil) == SQLITE_OK{
-            while sqlite3_step(selectStatement) == SQLITE_ROW{
-                let rowID = sqlite3_column_int(selectStatement,0)
-                let name = sqlite3_column_text (selectStatement,1)
-                let time = sqlite3_column_text(selectStatement,2)
-                let day = sqlite3_column_text(selectStatement,3)
-                let status = sqlite3_column_text(selectStatement, 4)
-                
-                let nameString = String(cString: name!)
-                let timeString = String(cString: time!)
-                let dayString = String(cString: day!)
-                let status2 = String(cString: status!)
-                
-                print("\(rowID) \(nameString) \(timeString) \(dayString) \(status2)")
-            }
-        } else {
-            print("table empty")
-        }
-    } // end of read table func
-    
     
     //beginning of updateTable
     func updateTableCheckboxPressed(arg entryID:Int){
         print("Called with result \(entryID)")
         print("\(EntryDB.MainListStruct.MainList[entryID])")
         
-        var selectStatement: OpaquePointer?
+        //var selectStatement: OpaquePointer?
         var db: OpaquePointer?
-        var list: Array<EventObject> = []
+        //var list: Array<EventObject> = []
         
         let fileUrl = try! //try is an exception incase something goes wrong
             FileManager.default.url(for: .documentDirectory, //creates file for document directory
@@ -180,11 +146,15 @@ public class EntryDB{
             }
         } //end of if statement for printing table
         
+        //this block prints out the list
+        /*
         if(sqlite3_prepare_v2(db, selectSql, -1, &selectStatement, nil) == SQLITE_OK){
             for index in 0...list.count-1{
-                //print(list[index])
+                print(list[index])
             }
-        }//end of if statement to print out the list
+        }*/
+        //end of if statement to print out the list
+        
         MainListStruct.MainList = list
 
     }
