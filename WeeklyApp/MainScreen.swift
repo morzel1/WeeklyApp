@@ -10,10 +10,12 @@ import UIKit
 import SQLite3
 
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
-    
     @IBOutlet weak var MainTable: UITableView!
     
     let DBHelper = EntryDB()
+    
+    var timer = Timer()
+    
     
     //code for + button, swaps to time selection screen
     @IBAction func SwapToTime(_ sender: Any) {
@@ -104,7 +106,25 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //MainTable.rowHeight = UITableView.automaticDimension
         //MainTable.estimatedRowHeight = 100
         
+        //sets timer with timeInterval in seconds
+        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(MainScreen.repeatingTimeCheck), userInfo: nil, repeats: true)
         
+
+    }
+    
+    @objc func repeatingTimeCheck()
+    {
+        let date = Date()
+        let calendar = Calendar.current
+        let hour = calendar.component(.hour, from: date)
+        let minutes = calendar.component(.minute, from: date)
+        let seconds = calendar.component(.second, from: date)
+        let day = calendar.component(.weekday, from: date)
+        
+        print(hour, " " , minutes, " " , seconds, "  " , day)
+        //1 is sunday, 7 is saturday
+        //time is 24 hour format
+        //this type of timer does NOT run in the background even if the app isn't fully closed
     }
     
 }
