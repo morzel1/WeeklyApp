@@ -142,9 +142,10 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
 
                 if(EntryDB.MainListStruct.MainList[index].status == "1" && hour == hour2 && minutes == minute2){
-                    print("BING BING BING")
-                } else {
-                    print("Not pinged yet")
+                    print("TAG BING BING BING")
+                    DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                    self.MainTable.reloadData()
+                    print("TAG ",EntryDB.MainListStruct.MainList[index].status)
                 }
                 
             }
