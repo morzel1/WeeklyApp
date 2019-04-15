@@ -121,11 +121,22 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let seconds = calendar.component(.second, from: date)
         let day = calendar.component(.weekday, from: date)
         
-        print(hour, " " , minutes, " " , seconds, "  " , day)
+        //print(hour, " " , minutes, " " , seconds, "  " , day)
         //1 is sunday, 7 is saturday
         //time is 24 hour format
         //this type of timer does NOT run in the background even if the app isn't fully closed
-    }
+        
+        if(EntryDB.MainListStruct.MainList.count > 0){
+            for index in 0...EntryDB.MainListStruct.MainList.count-1{
+                
+                if(EntryDB.MainListStruct.MainList[index].status == "1"){
+                    print(EntryDB.MainListStruct.MainList[index].time)
+                }
+                
+            }
+        }
+        
+    } // end of repeatingTimeCheck
     
 }
 
