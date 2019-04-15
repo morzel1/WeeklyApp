@@ -126,11 +126,25 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //time is 24 hour format
         //this type of timer does NOT run in the background even if the app isn't fully closed
         
+
+        
         if(EntryDB.MainListStruct.MainList.count > 0){
             for index in 0...EntryDB.MainListStruct.MainList.count-1{
                 
-                if(EntryDB.MainListStruct.MainList[index].status == "1"){
-                    print(EntryDB.MainListStruct.MainList[index].time)
+                let stringDate = EntryDB.MainListStruct.MainList[index].time
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "hh:mm a"
+                let date2 = dateFormatter.date(from: stringDate)!
+                let calendar2 = Calendar.current
+                let hour2 = calendar2.component(.hour, from: date2)
+                let minute2 = calendar2.component(.minute, from: date2)
+
+
+
+                if(EntryDB.MainListStruct.MainList[index].status == "1" && hour == hour2 && minutes == minute2){
+                    print("BING BING BING")
+                } else {
+                    print("Not pinged yet")
                 }
                 
             }
