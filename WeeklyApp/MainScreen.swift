@@ -8,6 +8,7 @@
 
 import UIKit
 import SQLite3
+import UserNotifications
 
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     @IBOutlet weak var MainTable: UITableView!
@@ -15,8 +16,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let DBHelper = EntryDB()
     
     var timer = Timer()
-    
-    
+        
     //code for + button, swaps to time selection screen
     @IBAction func SwapToTime(_ sender: Any) {
         self.performSegue(withIdentifier: "MainToTime", sender: self)
@@ -107,9 +107,9 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //MainTable.estimatedRowHeight = 100
         
         //sets timer with timeInterval in seconds
-        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(MainScreen.repeatingTimeCheck), userInfo: nil, repeats: true)
+        _ = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(MainScreen.repeatingTimeCheck), userInfo: nil, repeats: true)
         
-
+        
     }
     
     @objc func repeatingTimeCheck()
@@ -146,6 +146,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
                     DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
                     self.MainTable.reloadData()
                     print("TAG ",EntryDB.MainListStruct.MainList[index].status)
+                    
                 }
                 
             }
@@ -154,6 +155,3 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
     } // end of repeatingTimeCheck
     
 }
-
-
-
