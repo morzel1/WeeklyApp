@@ -10,7 +10,7 @@ import UIKit
 import SQLite3
 import UserNotifications
 
-class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, UNUserNotificationCenterDelegate  {
     @IBOutlet weak var MainTable: UITableView!
     
     let DBHelper = EntryDB()
@@ -106,11 +106,58 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
         //MainTable.rowHeight = UITableView.automaticDimension
         //MainTable.estimatedRowHeight = 100
         
+       
+        // #1.1 - Create "the notification's category value--its type."
+        let debitOverdraftNotifCategory = UNNotificationCategory(identifier: "notificationPopup", actions: [], intentIdentifiers: [], options: [])
+        // #1.2 - Register the notification type.
+        UNUserNotificationCenter.current().setNotificationCategories([debitOverdraftNotifCategory])
+        
         //sets timer with timeInterval in seconds
-        _ = Timer.scheduledTimer(timeInterval: 10, target: self, selector: #selector(MainScreen.repeatingTimeCheck), userInfo: nil, repeats: true)
-        
-        
+        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(MainScreen.repeatingTimeCheck), userInfo: nil, repeats: true)
     }
+    
+    @IBAction func testNotif(_ sender: Any) {
+        // find out what are the user's notification preferences
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            
+            // we're only going to create and schedule a notification
+            // if the user has kept notifications authorized for this app
+            guard settings.authorizationStatus == .authorized else { return }
+            
+            // create the content and style for the local notification
+            let content = UNMutableNotificationContent()
+            
+            // #2.1 - "Assign a value to this property that matches the identifier
+            // property of one of the UNNotificationCategory objects you
+            // previously registered with your app."
+            content.categoryIdentifier = "notificationPopup"
+            
+            // create the notification's content to be presented
+            // to the user
+            content.title = "Weekly Reset!"
+            content.subtitle = "One or more of your weeklies have reset"
+            content.body = "Blap blap blap"
+            content.sound = UNNotificationSound.default
+            
+            // #2.2 - create a "trigger condition that causes a notification
+            // to be delivered after the specified amount of time elapses";
+            // deliver after 10 seconds
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+            
+            // create a "request to schedule a local notification, which
+            // includes the content of the notification and the trigger conditions for delivery"
+            let uuidString = UUID().uuidString
+            let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().delegate = self
+            // "Upon calling this method, the system begins tracking the
+            // trigger conditions associated with your request. When the
+            // trigger condition is met, the system delivers your notification."
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+ 
+        } // end getNotificationSettings
+        
+    } // end of button function
     
     @objc func repeatingTimeCheck()
     {
@@ -140,18 +187,66 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource {
                 let minute2 = calendar2.component(.minute, from: date2)
 
 
-
                 if(EntryDB.MainListStruct.MainList[index].status == "1" && hour == hour2 && minutes == minute2){
                     print("TAG BING BING BING")
                     DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
-                    self.MainTable.reloadData()
                     print("TAG ",EntryDB.MainListStruct.MainList[index].status)
+                    self.MainTable.reloadData()
                     
-                }
+                    notificatonCall(arg: index)
+                } // end of time check code
                 
             }
         }
         
     } // end of repeatingTimeCheck
     
+    func notificatonCall(arg index:Int){
+        // find out what are the user's notification preferences
+        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
+            
+            // we're only going to create and schedule a notification
+            // if the user has kept notifications authorized for this app
+            guard settings.authorizationStatus == .authorized else { return }
+            
+            // create the content and style for the local notification
+            let content = UNMutableNotificationContent()
+            
+            // #2.1 - "Assign a value to this property that matches the identifier
+            // property of one of the UNNotificationCategory objects you
+            // previously registered with your app."
+            content.categoryIdentifier = "notificationPopup"
+            
+            // create the notification's content to be presented
+            // to the user
+            content.title = "Weekly Reset!"
+            content.subtitle = "One or more of your weeklies have reset"
+            content.body = "\(EntryDB.MainListStruct.MainList[index].name) "
+            content.sound = UNNotificationSound.default
+            
+            // #2.2 - create a "trigger condition that causes a notification
+            // to be delivered after the specified amount of time elapses";
+            // deliver after 10 seconds
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0.1, repeats: false)
+            
+            // create a "request to schedule a local notification, which
+            // includes the content of the notification and the trigger conditions for delivery"
+            let uuidString = UUID().uuidString
+            let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
+            
+            UNUserNotificationCenter.current().delegate = self
+            // "Upon calling this method, the system begins tracking the
+            // trigger conditions associated with your request. When the
+            // trigger condition is met, the system delivers your notification."
+            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+        } // end getNotificationSettings
+        
+    }
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        
+        //displaying the ios local notification when app is in foreground
+        completionHandler([.alert, .badge, .sound])
+    }
+
 }

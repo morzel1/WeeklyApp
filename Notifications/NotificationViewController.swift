@@ -17,6 +17,12 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any required interface initialization here.
+        
+        // #1.1 - Create "the notification's category value--its type."
+        let debitOverdraftNotifCategory = UNNotificationCategory(identifier: "notificationPopup", actions: [], intentIdentifiers: [], options: [])
+        // #1.2 - Register the notification type.
+        UNUserNotificationCenter.current().setNotificationCategories([debitOverdraftNotifCategory])
+        
     }
     
     @IBOutlet weak var NotificationText: UITextView!
@@ -24,7 +30,7 @@ class NotificationViewController: UIViewController, UNNotificationContentExtensi
     func didReceive(_ notification: UNNotification) {
         self.label?.text = notification.request.content.body
         
-        NotificationText.text = "Your notification has been reset rewuuoanfoiewnafoiehwraoihewoarihwoehraiwuebraliuwberliubeawilurbielubarliuewbarliuewarlihewairewiahrhewliuanrilewuanfliuewafviewnaoiweniufnreoig;niogoberowgberotbworegob4oubrotub4ou3bgto4ubwgobwgoewhbgo4ebgwpoub4"
+        NotificationText.text = "Your weekly has been reset rewuuoanfoiewnafoiehwraoihewoarihwoehraiwuebraliuwberliubeawilurbielubarliuewbarliuewarlihewairewiahrhewliuanrilewuanfliuewafviewnaoiweniufnreoig;niogoberowgberotbworegob4oubrotub4ou3bgto4ubwgobwgoewhbgo4ebgwpoub4"
     }
 
 }
