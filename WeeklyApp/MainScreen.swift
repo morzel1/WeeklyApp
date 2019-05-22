@@ -16,14 +16,25 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     let DBHelper = EntryDB()
     
     var timer = Timer()
-        
+    
+    struct DataTypes{
+        var arrayID: Int
+        var NotifID: String
+    }
+    
+    struct NotificationArray{
+        static var array: Array<DataTypes> = []
+    }
+    
     //code for + button, swaps to time selection screen
     @IBAction func SwapToTime(_ sender: Any) {
         self.performSegue(withIdentifier: "MainToTime", sender: self)
     }
     
+    
     //code for the checkbox whenever it is clicked
     @IBAction func checkBoxPressed(_ sender: UIButton) {
+        let center = UNUserNotificationCenter.current()
         let buttonTag = sender.tag
         DBHelper.updateTableCheckboxPressed(arg: buttonTag)
         
@@ -31,7 +42,16 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             //sets alarm when the box gets checked
             scheduleNotification(arg: buttonTag)
         } else {
+            var placeHolder = 0
             //cancel the notification when the box gets unchecked
+            for index in 0 ... MainScreen.NotificationArray.array.count-1{
+                if(MainScreen.NotificationArray.array[index].arrayID == buttonTag){
+                    placeHolder = index
+                }
+            }
+            UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [MainScreen.NotificationArray.array[placeHolder].NotifID])
+            //center.removePendingNotificationRequests(withIdentifiers: [MainScreen.NotificationArray.array[placeHolder].NotifID])
+                MainScreen.NotificationArray.array.remove(at: placeHolder)
         }
         
         self.MainTable.reloadData()
@@ -79,11 +99,15 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             dateComponents.hour = hour2
             dateComponents.minute = minute2
             dateComponents.weekday = day2
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
 
-            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            let idHold = UUID().uuidString
+            
+            let request = UNNotificationRequest(identifier: idHold, content: content, trigger: trigger)
             center.add(request)
-
+            
+            let elm = DataTypes(arrayID: entryID, NotifID: idHold)
+            MainScreen.NotificationArray.array.append(elm)
         }
         
     }
@@ -158,6 +182,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         EntryDB.ReturnFullTable(DBHelper)()
         self.MainTable.reloadData()
         
@@ -171,10 +196,19 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         UNUserNotificationCenter.current().setNotificationCategories([debitOverdraftNotifCategory])
         
         //sets timer with timeInterval in seconds
-        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(MainScreen.repeatingTimeCheck), userInfo: nil, repeats: true)
+        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(MainScreen.repeatingTimeCheck), userInfo: nil, repeats: false)
     }
     
     @IBAction func testNotif(_ sender: Any) {
+        print("TAG \(MainScreen.NotificationArray.array)")
+        
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
+            print("TAG \(requests.count) requests -------")
+            for request in requests{
+                print("TAG \(request.identifier)")
+            }
+        })
+        /*
         // find out what are the user's notification preferences
         UNUserNotificationCenter.current().getNotificationSettings { (settings) in
             
@@ -214,7 +248,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
  
         } // end getNotificationSettings
-        
+        */
     } // end of button function
     
     @objc func repeatingTimeCheck()
