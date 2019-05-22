@@ -26,10 +26,72 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     @IBAction func checkBoxPressed(_ sender: UIButton) {
         let buttonTag = sender.tag
         DBHelper.updateTableCheckboxPressed(arg: buttonTag)
+        
+        //set alarm here
+        scheduleNotification(arg: buttonTag)
+        
         self.MainTable.reloadData()
     }
     
 
+    func scheduleNotification(arg entryID:Int) {
+        print("TAG \(EntryDB.MainListStruct.MainList[entryID])")
+        let center = UNUserNotificationCenter.current()
+        
+        let stringDate = EntryDB.MainListStruct.MainList[entryID].time
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "hh:mm a"
+        let date2 = dateFormatter.date(from: stringDate)!
+        let calendar2 = Calendar.current
+        let hour2 = calendar2.component(.hour, from: date2)
+        let minute2 = calendar2.component(.minute, from: date2)
+        
+        var day2 = 1
+        if(EntryDB.MainListStruct.MainList[entryID].day == "Sunday"){
+            day2 = 1
+        } else if (EntryDB.MainListStruct.MainList[entryID].day == "Monday"){
+            day2 = 2
+        } else if (EntryDB.MainListStruct.MainList[entryID].day == "Tuesday"){
+            day2 = 3
+        } else if (EntryDB.MainListStruct.MainList[entryID].day == "Wednesday"){
+            day2 = 4
+        } else if (EntryDB.MainListStruct.MainList[entryID].day == "Thursday"){
+            day2 = 5
+        } else if (EntryDB.MainListStruct.MainList[entryID].day == "Friday"){
+            day2 = 6
+        } else if (EntryDB.MainListStruct.MainList[entryID].day == "Saturday"){
+            day2 = 7
+        }
+        
+        print("TAG \(day2)")
+        
+        if(EntryDB.MainListStruct.MainList[entryID].status == "1"){
+            print("TAG inside scheduler")
+            let center = UNUserNotificationCenter.current()
+            
+            let content = UNMutableNotificationContent()
+            content.title = "Weekly Reset!"
+            content.body = "\(EntryDB.MainListStruct.MainList[entryID].name) has reset"
+            content.categoryIdentifier = "alarm"
+            content.userInfo = ["customData": "fizzbuzz"]
+            content.sound = UNNotificationSound.default
+            
+            print("TAG crash part 1")
+            var dateComponents = DateComponents()
+            dateComponents.hour = hour2
+            dateComponents.minute = minute2
+            dateComponents.weekday = day2
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+            print("TAG crash part 2")
+
+            let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
+            center.add(request)
+            print("TAG crash part 3")
+
+        }
+        
+    }
+    
     //code for the read table button
     @IBAction func testDB(_ sender: Any) {
         EntryDB.ReturnFullTable(DBHelper)()
@@ -168,6 +230,22 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         let seconds = calendar.component(.second, from: date)
         let day = calendar.component(.weekday, from: date)
         
+        var compareDay = ""
+        if (day == 1){
+            compareDay = "Sunday"
+        } else if (day == 2){
+            compareDay = "Monday"
+        } else if (day == 3){
+            compareDay = "Tuesday"
+        } else if (day == 4){
+            compareDay = "Wednesday"
+        } else if (day == 5){
+            compareDay = "Thursday"
+        } else if (day == 6){
+            compareDay = "Friday"
+        } else if (day == 7){
+            compareDay = "Saturday"
+        }
         //print(hour, " " , minutes, " " , seconds, "  " , day)
         //1 is sunday, 7 is saturday
         //time is 24 hour format
@@ -186,8 +264,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 let hour2 = calendar2.component(.hour, from: date2)
                 let minute2 = calendar2.component(.minute, from: date2)
 
-
-                if(EntryDB.MainListStruct.MainList[index].status == "1" && hour == hour2 && minutes == minute2){
+                if(EntryDB.MainListStruct.MainList[index].status == "1" && hour == hour2 && minutes == minute2 && compareDay == EntryDB.MainListStruct.MainList[index].day){
                     print("TAG BING BING BING")
                     DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
                     print("TAG ",EntryDB.MainListStruct.MainList[index].status)

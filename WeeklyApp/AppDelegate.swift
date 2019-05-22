@@ -27,6 +27,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         }
         
+        
         return true
     }
 
@@ -50,6 +51,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //happens when i double tap home and go into multi window mode
         //happens before background happens
         //does NOT happen when entering foreground
+        
+        
         print("TAG will resign active")
     }
 

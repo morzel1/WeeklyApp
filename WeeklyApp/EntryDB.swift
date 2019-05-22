@@ -74,7 +74,6 @@ public class EntryDB{
         ReturnFullTable()
     } //end of ConfirmButtonDB func
     
-    
     //beginning of updateTable
     func updateTableCheckboxPressed(arg entryID:Int){
         print("Called with result \(entryID)")
