@@ -27,15 +27,18 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         let buttonTag = sender.tag
         DBHelper.updateTableCheckboxPressed(arg: buttonTag)
         
-        //set alarm here
-        scheduleNotification(arg: buttonTag)
+        if(EntryDB.MainListStruct.MainList[buttonTag].status == "1"){
+            //sets alarm when the box gets checked
+            scheduleNotification(arg: buttonTag)
+        } else {
+            //cancel the notification when the box gets unchecked
+        }
         
         self.MainTable.reloadData()
     }
     
-
+    //schedules notification when called
     func scheduleNotification(arg entryID:Int) {
-        print("TAG \(EntryDB.MainListStruct.MainList[entryID])")
         let center = UNUserNotificationCenter.current()
         
         let stringDate = EntryDB.MainListStruct.MainList[entryID].time
@@ -63,12 +66,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             day2 = 7
         }
         
-        print("TAG \(day2)")
-        
         if(EntryDB.MainListStruct.MainList[entryID].status == "1"){
-            print("TAG inside scheduler")
             let center = UNUserNotificationCenter.current()
-            
             let content = UNMutableNotificationContent()
             content.title = "Weekly Reset!"
             content.body = "\(EntryDB.MainListStruct.MainList[entryID].name) has reset"
@@ -76,17 +75,14 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             content.userInfo = ["customData": "fizzbuzz"]
             content.sound = UNNotificationSound.default
             
-            print("TAG crash part 1")
             var dateComponents = DateComponents()
             dateComponents.hour = hour2
             dateComponents.minute = minute2
             dateComponents.weekday = day2
-            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
-            print("TAG crash part 2")
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: true)
 
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
             center.add(request)
-            print("TAG crash part 3")
 
         }
         
@@ -227,7 +223,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
         let minutes = calendar.component(.minute, from: date)
-        let seconds = calendar.component(.second, from: date)
         let day = calendar.component(.weekday, from: date)
         
         var compareDay = ""
