@@ -73,6 +73,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         //calls this on transition from background to foreground then become active goes off
         //does NOT activate when freshly opening the app
+        print("TAG Inside become active, is empty check \(MainScreen.NotificationArray.array)")
+        if(MainScreen.NotificationArray.array.isEmpty){
+        }else{
+            MainScreen().compareNotifications()
+        }
+
         print("TAG enter foreground")
     }
 
@@ -83,14 +89,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         //use this block to do the check if the event was within the past x minutes
         
-        print("TAG Inside become active, is empty check \(MainScreen.NotificationArray.array)")
-        if(MainScreen.NotificationArray.array.isEmpty){
-        }else{
-            MainScreen().compareNotifications()
-        }
+
+        MainScreen().deleteTasks()
+
  
  
         print("TAG did become active")
+
     }
 
     func applicationWillTerminate(_ application: UIApplication) {

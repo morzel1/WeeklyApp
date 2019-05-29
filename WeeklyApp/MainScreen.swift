@@ -12,8 +12,10 @@ import UserNotifications
 
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, UNUserNotificationCenterDelegate  {
     @IBOutlet weak var MainTable: UITableView!
-    var SaveList: Array<String> = []
-    var SaveListIDS: Array<Int> = []
+    
+    
+    static var SaveList: Array<String> = []
+    static var SaveListIDS: Array<Int> = []
     
     let DBHelper = EntryDB()
     
@@ -189,9 +191,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     //end of table view code
     
     func compareNotifications(){
-        SaveList = []
-        SaveListIDS = []
-        //print("TAG2 \(MainScreen.NotificationArray.array)")
+        MainScreen.SaveList.removeAll()
+        MainScreen.SaveListIDS.removeAll()
         if(!MainScreen.NotificationArray.array.isEmpty){
             UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
                 for request in requests{
@@ -199,35 +200,56 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     for index in 0 ... MainScreen.NotificationArray.array.count-1{
                         if(MainScreen.NotificationArray.array[index].NotifID.contains(request.identifier)){
                             print("TAG2 Item found")
-                            self.SaveList.append(request.identifier)
-                            self.SaveListIDS.append(MainScreen.NotificationArray.array[index].arrayID)
-                            print("TAG2 \(self.SaveList) + \(self.SaveListIDS)")
+                            MainScreen.SaveList.append(request.identifier)
+                            MainScreen.SaveListIDS.append(MainScreen.NotificationArray.array[index].arrayID)
+                            print("TAG2 \(MainScreen.SaveList) + \(MainScreen.SaveListIDS)")
 
                         }
                     } //end of notification array loop
                 } // end of notification array
             })
         }
-        print("TAG2 \(SaveList) + \(SaveListIDS)")
+        print("TAG2 \(MainScreen.SaveList) + \(MainScreen.SaveListIDS)")
  
     }
     
     func deleteTasks(){
-        //if(!SaveList.isEmpty){
-            MainScreen.NotificationArray.array = []
-            UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
-                for request in requests{
-                    if(self.SaveList.contains(request.identifier)){
-                        print("TAG3 inside if")
-                        let elm = DataTypes(arrayID: self.SaveListIDS[self.SaveList.firstIndex(of: request.identifier)!], NotifID: request.identifier)
-                        MainScreen.NotificationArray.array.append(elm)
-                    } else {
-                        print("TAG3 inside else")
-                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request.identifier])
-                    }
+        MainScreen.NotificationArray.array = []
+        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
+            for request in requests{
+                if(MainScreen.SaveList.contains(request.identifier)){
+                    print("TAG3 inside if")
+                    let elm = DataTypes(arrayID: MainScreen.SaveListIDS[MainScreen.SaveList.firstIndex(of: request.identifier)!], NotifID: request.identifier)
+                    MainScreen.NotificationArray.array.append(elm)
+                } else {
+                    print("TAG3 inside else")
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request.identifier])
                 }
-            })
-            print("TAG2 NEW GLOBAL LIST \(MainScreen.NotificationArray.array)")
+            }
+        })
+        print("TAG2 NEW GLOBAL LIST \(MainScreen.NotificationArray.array)")
+        
+    }
+    
+    func autoUncheckBox(){
+        print("TAG4 auto uncheck called")
+        if(!MainScreen.NotificationArray.array.isEmpty){
+            for index in 0 ... MainScreen.NotificationArray.array.count-1 {
+                UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
+                    for request in requests{
+                        if(!MainScreen.NotificationArray.array[index].NotifID.contains(request.identifier)){
+                            print("TAG4 it does NOT contain \(MainScreen.NotificationArray.array[index].arrayID)")
+                        } else {
+                            print("TAG4 ELSE STATEMENT")
+                        }
+                    }
+                })
+            }
+        }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        self.MainTable.reloadData()
     }
     
     override func viewDidLoad() {
@@ -235,7 +257,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         print("TAG view did load")
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         EntryDB.ReturnFullTable(DBHelper)()
-        deleteTasks()
+        autoUncheckBox()
         self.MainTable.reloadData()
         
         //MainTable.rowHeight = UITableView.automaticDimension
@@ -252,11 +274,12 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @IBAction func testNotif(_ sender: Any) {
-        print("TAG2 \(MainScreen.NotificationArray.array)")
+        print("TAG2 -----------------------------------------------------------------")
+        print("TAG2 BIG ARRAY \(MainScreen.NotificationArray.array)")
         UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
             print("TAG \(requests.count) requests -------")
             for request in requests{
-                print("TAG2 \(request.identifier)")
+                print("TAG2 NOTIFICATION ID \(request.identifier)")
             }
         })
         /*
