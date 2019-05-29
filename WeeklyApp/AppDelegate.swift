@@ -82,6 +82,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //app turned on
         
         //use this block to do the check if the event was within the past x minutes
+        
+        print("TAG Inside become active, is empty check \(MainScreen.NotificationArray.array)")
+        if(MainScreen.NotificationArray.array.isEmpty){
+        }else{
+            MainScreen().compareNotifications()
+        }
+ 
+ 
         print("TAG did become active")
     }
 

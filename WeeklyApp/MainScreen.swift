@@ -12,6 +12,8 @@ import UserNotifications
 
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, UNUserNotificationCenterDelegate  {
     @IBOutlet weak var MainTable: UITableView!
+    var SaveList: Array<String> = []
+    var SaveListIDS: Array<Int> = []
     
     let DBHelper = EntryDB()
     
@@ -22,10 +24,15 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         var NotifID: String
     }
     
+    struct DataTypes2{
+        var arrayID: Int
+        var NotifID: String
+    }
+    
     struct NotificationArray{
         static var array: Array<DataTypes> = []
     }
-    
+
     //code for + button, swaps to time selection screen
     @IBAction func SwapToTime(_ sender: Any) {
         self.performSegue(withIdentifier: "MainToTime", sender: self)
@@ -41,7 +48,9 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         if(EntryDB.MainListStruct.MainList[buttonTag].status == "1"){
             //sets alarm when the box gets checked
             scheduleNotification(arg: buttonTag)
-        } else {
+        } else if (MainScreen.NotificationArray.array.isEmpty){
+            //Old method, possibly delete
+        }else{
             var placeHolder = 0
             //cancel the notification when the box gets unchecked
             for index in 0 ... MainScreen.NotificationArray.array.count-1{
@@ -51,7 +60,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             }
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [MainScreen.NotificationArray.array[placeHolder].NotifID])
             //center.removePendingNotificationRequests(withIdentifiers: [MainScreen.NotificationArray.array[placeHolder].NotifID])
-                MainScreen.NotificationArray.array.remove(at: placeHolder)
+            MainScreen.NotificationArray.array.remove(at: placeHolder)
         }
         
         self.MainTable.reloadData()
@@ -179,11 +188,54 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     //end of table view code
     
+    func compareNotifications(){
+        SaveList = []
+        SaveListIDS = []
+        //print("TAG2 \(MainScreen.NotificationArray.array)")
+        if(!MainScreen.NotificationArray.array.isEmpty){
+            UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
+                for request in requests{
+                    //print("TAG2 \(MainScreen.NotificationArray.array)")
+                    for index in 0 ... MainScreen.NotificationArray.array.count-1{
+                        if(MainScreen.NotificationArray.array[index].NotifID.contains(request.identifier)){
+                            print("TAG2 Item found")
+                            self.SaveList.append(request.identifier)
+                            self.SaveListIDS.append(MainScreen.NotificationArray.array[index].arrayID)
+                            print("TAG2 \(self.SaveList) + \(self.SaveListIDS)")
+
+                        }
+                    } //end of notification array loop
+                } // end of notification array
+            })
+        }
+        print("TAG2 \(SaveList) + \(SaveListIDS)")
+ 
+    }
+    
+    func deleteTasks(){
+        //if(!SaveList.isEmpty){
+            MainScreen.NotificationArray.array = []
+            UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
+                for request in requests{
+                    if(self.SaveList.contains(request.identifier)){
+                        print("TAG3 inside if")
+                        let elm = DataTypes(arrayID: self.SaveListIDS[self.SaveList.firstIndex(of: request.identifier)!], NotifID: request.identifier)
+                        MainScreen.NotificationArray.array.append(elm)
+                    } else {
+                        print("TAG3 inside else")
+                        UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request.identifier])
+                    }
+                }
+            })
+            print("TAG2 NEW GLOBAL LIST \(MainScreen.NotificationArray.array)")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print("TAG view did load")
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         EntryDB.ReturnFullTable(DBHelper)()
+        deleteTasks()
         self.MainTable.reloadData()
         
         //MainTable.rowHeight = UITableView.automaticDimension
@@ -200,12 +252,11 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     @IBAction func testNotif(_ sender: Any) {
-        print("TAG \(MainScreen.NotificationArray.array)")
-        
+        print("TAG2 \(MainScreen.NotificationArray.array)")
         UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
             print("TAG \(requests.count) requests -------")
             for request in requests{
-                print("TAG \(request.identifier)")
+                print("TAG2 \(request.identifier)")
             }
         })
         /*
