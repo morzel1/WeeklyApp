@@ -52,8 +52,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //happens before background happens
         //does NOT happen when entering foreground
         
+        /*
+        //save a list of tasks here
+        MainScreen.tempListPause.TempListStatus.removeAll()
+        MainScreen.tempListPause.TempListIDS.removeAll()
         
-        print("TAG will resign active")
+        if(EntryDB.MainListStruct.MainList.isEmpty){
+        } else {
+            for index in 0 ... EntryDB.MainListStruct.MainList.count-1{
+                MainScreen.tempListPause.TempListStatus[index] = EntryDB.MainListStruct.MainList[index].status
+                
+                MainScreen.tempListPause.TempListIDS[index] = EntryDB.MainListStruct.MainList[index].id
+            }
+            
+            print("TAG4 \(MainScreen.tempListPause.TempListStatus)")
+            print("TAG4 \(MainScreen.tempListPause.TempListIDS)")
+            print("TAG4 ------------------------------------------")
+            print("TAG4 \(EntryDB.MainListStruct.MainList)")
+            
+            print("TAG will resign active")
+        }
+         */
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -92,8 +111,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         MainScreen().deleteTasks()
 
- 
- 
         print("TAG did become active")
 
     }

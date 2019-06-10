@@ -17,6 +17,11 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     static var SaveList: Array<String> = []
     static var SaveListIDS: Array<Int> = []
     
+    struct tempListPause{
+        static var TempListStatus: Array<String> = []
+        static var TempListIDS: Array<Int> = []
+    }
+    
     let DBHelper = EntryDB()
     
     var timer = Timer()
@@ -130,7 +135,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         if(EntryDB.MainListStruct.MainList.count != 0){
             print(EntryDB.MainListStruct.MainList.count)
-            print(EntryDB.MainListStruct.MainList[0].name)
+            print(EntryDB.MainListStruct.MainList)
         } else {
             print("Global variable is empty")
         }
@@ -223,16 +228,61 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     MainScreen.NotificationArray.array.append(elm)
                 } else {
                     print("TAG3 inside else")
-                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request.identifier])
+                    
+               UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request.identifier])
                 }
             }
+
         })
         print("TAG2 NEW GLOBAL LIST \(MainScreen.NotificationArray.array)")
+        //EntryDB ID is always 1 higher than the SAVELIST one, add 1 to save list id
         
+        if(MainScreen.SaveListIDS.isEmpty && !EntryDB.MainListStruct.MainList.isEmpty){
+            if(EntryDB.MainListStruct.MainList[0].status == "1"){
+                DBHelper.updateTableCheckboxPressed(arg:                 EntryDB.MainListStruct.MainList[0].id-1)
+            }
+        }
+        
+        if(!MainScreen.SaveListIDS.isEmpty && !EntryDB.MainListStruct.MainList.isEmpty){
+            //do a check here between the MainScreen.MainList ids to the ids of saveListIDS
+            print("TAG5 \(MainScreen.SaveListIDS), \(EntryDB.MainListStruct.MainList)")
+            for index in 0 ... EntryDB.MainListStruct.MainList.count-1{
+                
+                
+                for index2 in 0 ... MainScreen.SaveListIDS.count-1{
+                    //let found = EntryDB.MainListStruct.MainList.contains{ $0.id == MainScreen.SaveListIDS[index2]+1}
+                    /*
+                    if(EntryDB.MainListStruct.MainList.contains{ $0.id == MainScreen.SaveListIDS[index2]+1}){
+                        print("TAG5 item found")
+                        print("TAG5 \(EntryDB.MainListStruct.MainList[index].id), \(MainScreen.SaveListIDS[index2]+1)")
+                    } else {
+                        print("TAG5 checkbox SWAP")
+                        print("TAG5 \(EntryDB.MainListStruct.MainList[index].id), \(MainScreen.SaveListIDS[index2]+1)")
+                        DBHelper.updateTableCheckboxPressed(arg: index)
+                    }*/
+                    
+                    if(MainScreen.SaveListIDS.contains(EntryDB.MainListStruct.MainList[index].id-1)){
+                        print("TAG5 item found")
+                        print("TAG5 \(EntryDB.MainListStruct.MainList[index].id), \(MainScreen.SaveListIDS[index2]+1)")
+                    } else {
+                        print("TAG5 checkbox SWAP")
+                        print("TAG5 \(EntryDB.MainListStruct.MainList[index].id), \(MainScreen.SaveListIDS[index2]+1)")
+                        print("TAG5 Swapping Box number \(index+1), \(EntryDB.MainListStruct.MainList[index])")
+                        if(EntryDB.MainListStruct.MainList[index].status == "1"){
+                            DBHelper.updateTableCheckboxPressed(arg:                         EntryDB.MainListStruct.MainList[index].id-1)
+                            print("TAG6 after box swap \(EntryDB.MainListStruct.MainList)")
+                        }
+                    }
+                }
+                
+                
+            }
+        }
     }
     
     func autoUncheckBox(){
         print("TAG4 auto uncheck called")
+        /*
         if(!MainScreen.NotificationArray.array.isEmpty){
             for index in 0 ... MainScreen.NotificationArray.array.count-1 {
                 UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
@@ -245,7 +295,9 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     }
                 })
             }
-        }
+        }*/
+ 
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -327,6 +379,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @objc func repeatingTimeCheck()
     {
+        
         let date = Date()
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
@@ -378,7 +431,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 
             }
         }
-        
     } // end of repeatingTimeCheck
     
     func notificatonCall(arg index:Int){
