@@ -52,6 +52,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         let buttonTag = sender.tag
         DBHelper.updateTableCheckboxPressed(arg: buttonTag)
         
+        //load in MainScreen.NotificaitonArray
+        
         if(EntryDB.MainListStruct.MainList[buttonTag].status == "1"){
             //sets alarm when the box gets checked
             scheduleNotification(arg: buttonTag)
@@ -124,7 +126,17 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             
             let elm = DataTypes(arrayID: entryID, NotifID: idHold)
             MainScreen.NotificationArray.array.append(elm)
+            
+            
+            //insert MainScreen.NotificationArray saver
+            
+            /*
+            var defaults = UserDefaults.standard
+            let encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: MainScreen.NotificationArray.array)
+            defaults.set(encodedData, forKey: "Save3")
+ */
         }
+        
         
     }
     
@@ -184,6 +196,9 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func compareNotifications(){
         MainScreen.SaveList.removeAll()
         MainScreen.SaveListIDS.removeAll()
+        //load in MainScreen.NotificationArray
+        
+        
         if(!MainScreen.NotificationArray.array.isEmpty){
             UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
                 for request in requests{
@@ -196,13 +211,24 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                         }
                     } //end of notification array loop
                 } // end of notification array
+                let defaults = UserDefaults.standard
+                defaults.set(MainScreen.SaveList, forKey: "Save1")
+                defaults.set(MainScreen.SaveListIDS, forKey: "Save2")
             })
+
         }
  
     }
     
     func deleteTasks(){
         MainScreen.NotificationArray.array = []
+        
+        let defaults = UserDefaults.standard
+        let myarray1 = defaults.stringArray(forKey: "Save1") ?? [String]()
+        let myarray2 = defaults.array(forKey: "Save2") as? [Int] ?? [Int]()
+        MainScreen.SaveList = myarray1
+        MainScreen.SaveListIDS = myarray2
+        
         UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
             for request in requests{
                 if(MainScreen.SaveList.contains(request.identifier)){
@@ -212,7 +238,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request.identifier])
                 }
             }
-
+            
+            //insert MainScreen.NotificationArray saver
         })
         //EntryDB ID is always 1 higher than the SAVELIST one, add 1 to save list id
         
@@ -287,6 +314,13 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @objc func repeatingTimeCheck()
     {
+        let defaults = UserDefaults.standard
+        let myarray1 = defaults.stringArray(forKey: "Save1") ?? [String]()
+        let myarray2 = defaults.array(forKey: "Save2") as? [Int] ?? [Int]()
+        //let myarray3 = defaults.array(forKey: "Save3") ?? [String]()
+        let myarray3 = "HA"
+        print("TAG5 \(myarray1) : \(myarray2) : \(myarray3)")
+        
         MainTable.reloadData()
         let date = Date()
         let calendar = Calendar.current
