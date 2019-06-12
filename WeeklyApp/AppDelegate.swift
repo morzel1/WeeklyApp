@@ -73,6 +73,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             print("TAG will resign active")
         }
          */
+        MainScreen().compareNotifications()
+        
     }
 
     func applicationDidEnterBackground(_ application: UIApplication) {
@@ -93,7 +95,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //calls this on transition from background to foreground then become active goes off
         //does NOT activate when freshly opening the app
         //print("TAG Inside become active, is empty check \(MainScreen.NotificationArray.array)")
-        if(MainScreen.NotificationArray.array.isEmpty){
+        
+        
+        if(MainScreen.NotificationArray.isEmpty){
         }else{
             MainScreen().compareNotifications()
         }
