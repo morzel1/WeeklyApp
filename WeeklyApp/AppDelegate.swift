@@ -84,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //calls this then will terminate when closing the app
         
         //use this to store the start time for the x minute checker
-        print("TAG enter background")
+        //print("TAG enter background")
     }
 
     func applicationWillEnterForeground(_ application: UIApplication) {
@@ -92,13 +92,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         //calls this on transition from background to foreground then become active goes off
         //does NOT activate when freshly opening the app
-        print("TAG Inside become active, is empty check \(MainScreen.NotificationArray.array)")
+        //print("TAG Inside become active, is empty check \(MainScreen.NotificationArray.array)")
         if(MainScreen.NotificationArray.array.isEmpty){
         }else{
             MainScreen().compareNotifications()
         }
 
-        print("TAG enter foreground")
+        //print("TAG enter foreground")
     }
 
     func applicationDidBecomeActive(_ application: UIApplication) {
@@ -111,7 +111,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
         MainScreen().deleteTasks()
 
-        print("TAG did become active")
+        //print("TAG did become active")
 
     }
 
@@ -119,7 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
         
         //use the same code as enter background block to store start values
-        print("TAG will terminate")
+        //print("TAG will terminate")
     }
     
 }

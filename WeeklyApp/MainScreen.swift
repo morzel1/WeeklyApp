@@ -128,18 +128,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
     }
     
-    //code for the read table button
-    @IBAction func testDB(_ sender: Any) {
-        EntryDB.ReturnFullTable(DBHelper)()
-        print("Testing read table button")
-        
-        if(EntryDB.MainListStruct.MainList.count != 0){
-            print(EntryDB.MainListStruct.MainList.count)
-            print(EntryDB.MainListStruct.MainList)
-        } else {
-            print("Global variable is empty")
-        }
-    }
     
     //code for the delete table button
     @IBAction func deleteDB(_ sender: Any) {
@@ -156,9 +144,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         //delete the table
         sqlite3_exec(db, "DROP TABLE Tasks",nil,nil,nil)
         sqlite3_close(db)
-        print("Deleted")
         EntryDB.ReturnFullTable(DBHelper)()
-        print("New List \(EntryDB.MainListStruct.MainList)")
         self.MainTable.reloadData()
     }
     //end of delete db
@@ -204,17 +190,14 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     //print("TAG2 \(MainScreen.NotificationArray.array)")
                     for index in 0 ... MainScreen.NotificationArray.array.count-1{
                         if(MainScreen.NotificationArray.array[index].NotifID.contains(request.identifier)){
-                            print("TAG2 Item found")
                             MainScreen.SaveList.append(request.identifier)
                             MainScreen.SaveListIDS.append(MainScreen.NotificationArray.array[index].arrayID)
-                            print("TAG2 \(MainScreen.SaveList) + \(MainScreen.SaveListIDS)")
 
                         }
                     } //end of notification array loop
                 } // end of notification array
             })
         }
-        print("TAG2 \(MainScreen.SaveList) + \(MainScreen.SaveListIDS)")
  
     }
     
@@ -223,18 +206,14 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
             for request in requests{
                 if(MainScreen.SaveList.contains(request.identifier)){
-                    print("TAG3 inside if")
                     let elm = DataTypes(arrayID: MainScreen.SaveListIDS[MainScreen.SaveList.firstIndex(of: request.identifier)!], NotifID: request.identifier)
                     MainScreen.NotificationArray.array.append(elm)
                 } else {
-                    print("TAG3 inside else")
-                    
                UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request.identifier])
                 }
             }
 
         })
-        print("TAG2 NEW GLOBAL LIST \(MainScreen.NotificationArray.array)")
         //EntryDB ID is always 1 higher than the SAVELIST one, add 1 to save list id
         
         if(MainScreen.SaveListIDS.isEmpty && !EntryDB.MainListStruct.MainList.isEmpty){
@@ -245,7 +224,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
         if(!MainScreen.SaveListIDS.isEmpty && !EntryDB.MainListStruct.MainList.isEmpty){
             //do a check here between the MainScreen.MainList ids to the ids of saveListIDS
-            print("TAG5 \(MainScreen.SaveListIDS), \(EntryDB.MainListStruct.MainList)")
             for index in 0 ... EntryDB.MainListStruct.MainList.count-1{
                 
                 
@@ -262,15 +240,13 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     }*/
                     
                     if(MainScreen.SaveListIDS.contains(EntryDB.MainListStruct.MainList[index].id-1)){
+                        /*
                         print("TAG5 item found")
                         print("TAG5 \(EntryDB.MainListStruct.MainList[index].id), \(MainScreen.SaveListIDS[index2]+1)")
+                        */
                     } else {
-                        print("TAG5 checkbox SWAP")
-                        print("TAG5 \(EntryDB.MainListStruct.MainList[index].id), \(MainScreen.SaveListIDS[index2]+1)")
-                        print("TAG5 Swapping Box number \(index+1), \(EntryDB.MainListStruct.MainList[index])")
                         if(EntryDB.MainListStruct.MainList[index].status == "1"){
                             DBHelper.updateTableCheckboxPressed(arg:                         EntryDB.MainListStruct.MainList[index].id-1)
-                            print("TAG6 after box swap \(EntryDB.MainListStruct.MainList)")
                         }
                     }
                 }
@@ -280,36 +256,19 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
     
-    func autoUncheckBox(){
-        print("TAG4 auto uncheck called")
-        /*
-        if(!MainScreen.NotificationArray.array.isEmpty){
-            for index in 0 ... MainScreen.NotificationArray.array.count-1 {
-                UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
-                    for request in requests{
-                        if(!MainScreen.NotificationArray.array[index].NotifID.contains(request.identifier)){
-                            print("TAG4 it does NOT contain \(MainScreen.NotificationArray.array[index].arrayID)")
-                        } else {
-                            print("TAG4 ELSE STATEMENT")
-                        }
-                    }
-                })
-            }
-        }*/
- 
-        
+    func refreshScreen(){
+        MainTable.reloadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.MainTable.reloadData()
+        MainTable.reloadData()
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print("TAG view did load")
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         EntryDB.ReturnFullTable(DBHelper)()
-        autoUncheckBox()
         self.MainTable.reloadData()
         
         //MainTable.rowHeight = UITableView.automaticDimension
@@ -322,64 +281,13 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         UNUserNotificationCenter.current().setNotificationCategories([debitOverdraftNotifCategory])
         
         //sets timer with timeInterval in seconds
-        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(MainScreen.repeatingTimeCheck), userInfo: nil, repeats: false)
+        _ = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(MainScreen.repeatingTimeCheck), userInfo: nil, repeats: true)
     }
     
-    @IBAction func testNotif(_ sender: Any) {
-        print("TAG2 -----------------------------------------------------------------")
-        print("TAG2 BIG ARRAY \(MainScreen.NotificationArray.array)")
-        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
-            print("TAG \(requests.count) requests -------")
-            for request in requests{
-                print("TAG2 NOTIFICATION ID \(request.identifier)")
-            }
-        })
-        /*
-        // find out what are the user's notification preferences
-        UNUserNotificationCenter.current().getNotificationSettings { (settings) in
-            
-            // we're only going to create and schedule a notification
-            // if the user has kept notifications authorized for this app
-            guard settings.authorizationStatus == .authorized else { return }
-            
-            // create the content and style for the local notification
-            let content = UNMutableNotificationContent()
-            
-            // #2.1 - "Assign a value to this property that matches the identifier
-            // property of one of the UNNotificationCategory objects you
-            // previously registered with your app."
-            content.categoryIdentifier = "notificationPopup"
-            
-            // create the notification's content to be presented
-            // to the user
-            content.title = "Weekly Reset!"
-            content.subtitle = "One or more of your weeklies have reset"
-            content.body = "Blap blap blap"
-            content.sound = UNNotificationSound.default
-            
-            // #2.2 - create a "trigger condition that causes a notification
-            // to be delivered after the specified amount of time elapses";
-            // deliver after 10 seconds
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
-            
-            // create a "request to schedule a local notification, which
-            // includes the content of the notification and the trigger conditions for delivery"
-            let uuidString = UUID().uuidString
-            let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: trigger)
-            
-            UNUserNotificationCenter.current().delegate = self
-            // "Upon calling this method, the system begins tracking the
-            // trigger conditions associated with your request. When the
-            // trigger condition is met, the system delivers your notification."
-            UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
- 
-        } // end getNotificationSettings
-        */
-    } // end of button function
     
     @objc func repeatingTimeCheck()
     {
-        
+        MainTable.reloadData()
         let date = Date()
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
@@ -421,9 +329,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 let minute2 = calendar2.component(.minute, from: date2)
 
                 if(EntryDB.MainListStruct.MainList[index].status == "1" && hour == hour2 && minutes == minute2 && compareDay == EntryDB.MainListStruct.MainList[index].day){
-                    print("TAG BING BING BING")
                     DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
-                    print("TAG ",EntryDB.MainListStruct.MainList[index].status)
                     self.MainTable.reloadData()
                     
                     notificatonCall(arg: index)
