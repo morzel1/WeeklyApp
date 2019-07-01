@@ -192,6 +192,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     //end of table view code
     
+    /*
     func compareNotifications(){
         MainScreen.SaveList.removeAll()
         MainScreen.SaveListIDS.removeAll()
@@ -232,18 +233,20 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         MainScreen.SaveList = myarray1
         MainScreen.SaveListIDS = myarray2
         
-        UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
-            for request in requests{
-                if(MainScreen.SaveList.contains(request.identifier)){
-                    let elm = DataTypes(arrayID: MainScreen.SaveListIDS[MainScreen.SaveList.firstIndex(of: request.identifier)!], NotifID: request.identifier)
-                    MainScreen.NotificationArray.append(elm)
-                } else {
-               UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request.identifier])
+        //if(!MainScreen.SaveList.isEmpty && !MainScreen.SaveListIDS.isEmpty){
+            UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
+                for request in requests{
+                    if(MainScreen.SaveList.contains(request.identifier)){
+                        let elm = DataTypes(arrayID: MainScreen.SaveListIDS[MainScreen.SaveList.firstIndex(of: request.identifier)!], NotifID: request.identifier)
+                        MainScreen.NotificationArray.append(elm)
+                    } else {
+                   UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request.identifier])
+                    }
                 }
-            }
-            
-            //insert MainScreen.NotificationArray saver
-        })
+                
+                //insert MainScreen.NotificationArray saver
+            })
+        //}
         //EntryDB ID is always 1 higher than the SAVELIST one, add 1 to save list id
         
         if(MainScreen.SaveListIDS.isEmpty && !EntryDB.MainListStruct.MainList.isEmpty){
@@ -285,7 +288,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             }
         }
     }
-    
+    */
     func refreshScreen(){
         MainTable.reloadData()
     }
@@ -299,6 +302,9 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         super.viewDidLoad()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         EntryDB.ReturnFullTable(DBHelper)()
+        
+        //add check here
+        
         self.MainTable.reloadData()
         
         //MainTable.rowHeight = UITableView.automaticDimension
@@ -324,16 +330,19 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         let myarray3 = "HA"
         print("TAG5 \(myarray1) : \(myarray2) : \(MainScreen.NotificationArray)")
         
+        /*
         if(MainScreen.NotificationArray.isEmpty){
         }else{
             MainScreen().compareNotifications()
         }
+ */
         
         MainTable.reloadData()
         let date = Date()
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
         let minutes = calendar.component(.minute, from: date)
+        let seconds = calendar.component(.second, from: date)
         let day = calendar.component(.weekday, from: date)
         
         var compareDay = ""
@@ -368,8 +377,9 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 let calendar2 = Calendar.current
                 let hour2 = calendar2.component(.hour, from: date2)
                 let minute2 = calendar2.component(.minute, from: date2)
-
-                if(EntryDB.MainListStruct.MainList[index].status == "1" && hour == hour2 && minutes == minute2 && compareDay == EntryDB.MainListStruct.MainList[index].day){
+                let second2 = calendar2.component(.second, from: date2)
+                
+                if(EntryDB.MainListStruct.MainList[index].status == "1" && hour == hour2 && minutes == minute2 && compareDay == EntryDB.MainListStruct.MainList[index].day && second2 == seconds){
                     DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
                     self.MainTable.reloadData()
                     
