@@ -78,32 +78,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         //MainScreen().compareNotifications()
         let date = Date()
         let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: date)
-        let minutes = calendar.component(.minute, from: date)
+        let currentHour = calendar.component(.hour, from: date)
+        let currentMinute = calendar.component(.minute, from: date)
         let day = calendar.component(.weekday, from: date)
-        let seconds = calendar.component(.second, from: date)
+        let currentSecond = calendar.component(.second, from: date)
         
-        var compareDay = ""
+        var currentDay = ""
         if (day == 1){
-            compareDay = "Sunday"
+            currentDay = "Sunday"
         } else if (day == 2){
-            compareDay = "Monday"
+            currentDay = "Monday"
         } else if (day == 3){
-            compareDay = "Tuesday"
+            currentDay = "Tuesday"
         } else if (day == 4){
-            compareDay = "Wednesday"
+            currentDay = "Wednesday"
         } else if (day == 5){
-            compareDay = "Thursday"
+            currentDay = "Thursday"
         } else if (day == 6){
-            compareDay = "Friday"
+            currentDay = "Friday"
         } else if (day == 7){
-            compareDay = "Saturday"
+            currentDay = "Saturday"
         }
         
         //let defaults = UserDefaults.standard
-        //stuff to save is hour, minutes, seconds, compareDay
+        //stuff to save is currentHour, currentMinute, currentSecond, currentDay
         UserDefaults.standard.set(date, forKey: "date")
-        UserDefaults.standard.set(compareDay, forKey:"day1")
+        UserDefaults.standard.set(currentDay, forKey:"day1")
         
     }
 
@@ -139,26 +139,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         let date = Date()
         let calendar = Calendar.current
-        let hour = calendar.component(.hour, from: date)
-        let minutes = calendar.component(.minute, from: date)
+        let currentHour = calendar.component(.hour, from: date)
+        let currentMinute = calendar.component(.minute, from: date)
         let day = calendar.component(.weekday, from: date)
-        let seconds = calendar.component(.second, from: date)
+        let currentSecond = calendar.component(.second, from: date)
         
-        var compareDay = ""
+        var currentDay = ""
         if (day == 1){
-            compareDay = "Sunday"
+            currentDay = "Sunday"
         } else if (day == 2){
-            compareDay = "Monday"
+            currentDay = "Monday"
         } else if (day == 3){
-            compareDay = "Tuesday"
+            currentDay = "Tuesday"
         } else if (day == 4){
-            compareDay = "Wednesday"
+            currentDay = "Wednesday"
         } else if (day == 5){
-            compareDay = "Thursday"
+            currentDay = "Thursday"
         } else if (day == 6){
-            compareDay = "Friday"
+            currentDay = "Friday"
         } else if (day == 7){
-            compareDay = "Saturday"
+            currentDay = "Saturday"
         }
         
         let OldDate = UserDefaults.standard.object(forKey: "date") as! Date
@@ -180,21 +180,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             for index in 0...EntryDB.MainListStruct.MainList.count-1{
                 var dateComponents = DateComponents()
                 
-                var compareDay2 = 1
+                var savedDay = 1
                 if (EntryDB.MainListStruct.MainList[index].day == "Sunday"){
-                    compareDay2 = 1
+                    savedDay = 1
                 } else if (EntryDB.MainListStruct.MainList[index].day == "Monday"){
-                    compareDay2 = 2
+                    savedDay = 2
                 } else if (EntryDB.MainListStruct.MainList[index].day == "Tuesday"){
-                    compareDay2 = 3
+                    savedDay = 3
                 } else if (EntryDB.MainListStruct.MainList[index].day == "Wednesday"){
-                    compareDay2 = 4
+                    savedDay = 4
                 } else if (EntryDB.MainListStruct.MainList[index].day == "Thursday"){
-                    compareDay2 = 5
+                    savedDay = 5
                 } else if (EntryDB.MainListStruct.MainList[index].day == "Friday"){
-                    compareDay2 = 6
+                    savedDay = 6
                 } else if (EntryDB.MainListStruct.MainList[index].day == "Saturday"){
-                    compareDay2 = 7
+                    savedDay = 7
                 }
                 
                 let stringDate = EntryDB.MainListStruct.MainList[index].time
@@ -202,25 +202,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 dateFormatter.dateFormat = "hh:mm a"
                 let date2 = dateFormatter.date(from: stringDate)!
                 let calendar2 = Calendar.current
-                let hour2 = calendar2.component(.hour, from: date2)
-                let minute2 = calendar2.component(.minute, from: date2)
+                let savedHour = calendar2.component(.hour, from: date2)
+                let savedMinute = calendar2.component(.minute, from: date2)
                 let second2 = calendar2.component(.second, from: date2)
                 
-                dateComponents.day = compareDay2
-                dateComponents.hour = hour2
-                dateComponents.minute = minute2
+                dateComponents.day = savedDay
+                dateComponents.hour = savedHour
+                dateComponents.minute = savedMinute
                 
                 //(oldHour): \(oldMinutes): \(oldSeconds) -> \(oldDay) is the old variables
-                //hour, minutes, seconds, compareDay is string, day is int
-                //hour2, minute2, compareDay2 is the saved date from the DB
+                //currentHour, currentMinute, currentSecond, currentDay is string, day is int
+                //savedHour, savedMinute, savedDay is the saved date from the DB
                 print("TAG10 Tasklist \(EntryDB.MainListStruct.MainList)")
                 print("TAG10 Oldlist \(oldHour): \(oldMinutes): \(oldSeconds) -> Day \(oldDay)")
-                print("Tag10 CurrentList \(hour): \(minutes): \(seconds) -> Day \(day)")
-                print("TAG10 DatabaseList \(hour2): \(minute2): \(second2) -> DAY \(compareDay2)")
+                print("Tag10 CurrentList \(currentHour): \(currentMinute): \(currentSecond) -> Day \(day)")
+                print("TAG10 DatabaseList \(savedHour): \(savedMinute): \(second2) -> DAY \(savedDay)")
                 
                 //checks if the the app was reopened in the same day of the week then checks if database time is within old and new
-                if(oldDay == compareDay2) && (compareDay2 == day){
-                    if(oldHour <= hour2 && hour2 <= hour) && (oldMinutes <= minute2 && minute2 <= minutes) && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                if(oldDay == savedDay) && (savedDay == day){
+                    if(oldHour <= savedHour && savedHour <= currentHour) && (oldMinutes <= savedMinute && savedMinute <= currentMinute) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                         print("TAG12 BING BING TASK is today")
                         MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
                     }
@@ -242,7 +242,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         
         //app turned on
         
-        //use this block to do the check if the event was within the past x minutes
+        //use this block to do the check if the event was within the past x currentMinute
         
 
        // MainScreen().deleteTasks()
@@ -256,26 +256,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         if(nilCheck != nil){
             let date = Date()
             let calendar = Calendar.current
-            let hour = calendar.component(.hour, from: date)
-            let minutes = calendar.component(.minute, from: date)
+            let currentHour = calendar.component(.hour, from: date)
+            let currentMinute = calendar.component(.minute, from: date)
             let day = calendar.component(.weekday, from: date)
-            let seconds = calendar.component(.second, from: date)
+            let currentSecond = calendar.component(.second, from: date)
             
-            var compareDay = ""
+            var currentDay = ""
             if (day == 1){
-                compareDay = "Sunday"
+                currentDay = "Sunday"
             } else if (day == 2){
-                compareDay = "Monday"
+                currentDay = "Monday"
             } else if (day == 3){
-                compareDay = "Tuesday"
+                currentDay = "Tuesday"
             } else if (day == 4){
-                compareDay = "Wednesday"
+                currentDay = "Wednesday"
             } else if (day == 5){
-                compareDay = "Thursday"
+                currentDay = "Thursday"
             } else if (day == 6){
-                compareDay = "Friday"
+                currentDay = "Friday"
             } else if (day == 7){
-                compareDay = "Saturday"
+                currentDay = "Saturday"
             }
             
             let OldDate = UserDefaults.standard.object(forKey: "date") as! Date
@@ -297,21 +297,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 for index in 0...EntryDB.MainListStruct.MainList.count-1{
                     var dateComponents = DateComponents()
                     
-                    var compareDay2 = 1
+                    var savedDay = 1
                     if (EntryDB.MainListStruct.MainList[index].day == "Sunday"){
-                        compareDay2 = 1
+                        savedDay = 1
                     } else if (EntryDB.MainListStruct.MainList[index].day == "Monday"){
-                        compareDay2 = 2
+                        savedDay = 2
                     } else if (EntryDB.MainListStruct.MainList[index].day == "Tuesday"){
-                        compareDay2 = 3
+                        savedDay = 3
                     } else if (EntryDB.MainListStruct.MainList[index].day == "Wednesday"){
-                        compareDay2 = 4
+                        savedDay = 4
                     } else if (EntryDB.MainListStruct.MainList[index].day == "Thursday"){
-                        compareDay2 = 5
+                        savedDay = 5
                     } else if (EntryDB.MainListStruct.MainList[index].day == "Friday"){
-                        compareDay2 = 6
+                        savedDay = 6
                     } else if (EntryDB.MainListStruct.MainList[index].day == "Saturday"){
-                        compareDay2 = 7
+                        savedDay = 7
                     }
                     
                     let stringDate = EntryDB.MainListStruct.MainList[index].time
@@ -319,31 +319,57 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     dateFormatter.dateFormat = "hh:mm a"
                     let date2 = dateFormatter.date(from: stringDate)!
                     let calendar2 = Calendar.current
-                    let hour2 = calendar2.component(.hour, from: date2)
-                    let minute2 = calendar2.component(.minute, from: date2)
+                    let savedHour = calendar2.component(.hour, from: date2)
+                    let savedMinute = calendar2.component(.minute, from: date2)
                     let second2 = calendar2.component(.second, from: date2)
                     
-                    dateComponents.day = compareDay2
-                    dateComponents.hour = hour2
-                    dateComponents.minute = minute2
+                    dateComponents.day = savedDay
+                    dateComponents.hour = savedHour
+                    dateComponents.minute = savedMinute
                     
                     //(oldHour): \(oldMinutes): \(oldSeconds) -> \(oldDay) is the old variables
-                    //hour, minutes, seconds, compareDay is string, day is int
-                    //hour2, minute2, compareDay2 is the saved date from the DB
+                    //currentHour, currentMinute, currentSecond, currentDay is string, day is int
+                    //savedHour, savedMinute, savedDay is the saved date from the DB
                     print("TAG10 Tasklist \(EntryDB.MainListStruct.MainList)")
                     print("TAG10 Oldlist \(oldHour): \(oldMinutes): \(oldSeconds) -> Day \(oldDay)")
-                    print("Tag10 CurrentList \(hour): \(minutes): \(seconds) -> Day \(day)")
-                    print("TAG10 DatabaseList \(hour2): \(minute2): \(second2) -> DAY \(compareDay2)")
+                    print("Tag10 CurrentList \(currentHour): \(currentMinute): \(currentSecond) -> Day \(day)")
+                    print("TAG10 DatabaseList \(savedHour): \(savedMinute): \(second2) -> DAY \(savedDay)")
                     
                     //checks if the the app was reopened in the same day of the week then checks if database time is within old and new
-                    if(oldDay == compareDay2) && (compareDay2 == day){
-                        if(oldHour <= hour2 && hour2 <= hour) && (oldMinutes <= minute2 && minute2 <= minutes) && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                    if(oldDay == savedDay) && (savedDay == day){
+                        if(oldHour <= savedHour && savedHour <= currentHour) && (oldHour != currentHour) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                             print("TAG12 BING BING TASK is today")
                             MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                        }
+                        
+                        if(oldHour == currentHour) && (savedHour == currentHour) && (oldMinutes <= savedMinute && savedMinute <= currentMinute)  && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                            print("TAG12 Second check for same day")
+                            MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+
                         }
                     }
                     
                     //use cases i need to cover: transition from saturday to sunday (7 to 1 in day int)
+                    if(oldDay == 7) && (day == 1){
+                        if (savedDay == 7) || (savedDay == 1) {
+                            if ((oldHour < savedHour) || (savedHour < currentHour)) && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                                print("TAG13 if1 in saturday to sunday transition")
+                                MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                            }
+                            
+                            if (oldHour == savedHour) && (oldMinutes <= savedMinute) && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                                print("TAG13 if2 in saturday to sunday transition")
+                                MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                            }
+                            
+                            if (savedHour == currentHour) && (savedMinute <= currentMinute) && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                                print("TAG13 if3 in saturday to sunday transition")
+                                MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                            }
+                            
+                        }
+                    }
+                    
                     //check for within a week (1 to 7 in day int)
                     //check for midnight transition (23:59:59 to 00:00:00) *possibly use change in the day as the factor
                     //
