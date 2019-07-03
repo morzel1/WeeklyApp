@@ -371,14 +371,36 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     }
                     
                     //check for within a week (1 to 7 in day int)
-                    //check for midnight transition (23:59:59 to 00:00:00) *possibly use change in the day as the factor
-                    //
+                    // 1) if the gap between old and new is larger than 1 (ex: monday to wednesday) you can straight up check if Old < S < N
+                    // 2) if the gap is 1 day (ex: monday to tuesday) maybe check if New - old = 1 then check the time between old - 24 and 0 - new
+                    if(oldDay < savedDay) && (savedDay < day) && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                        print("TAG14 checking day with big gap")
+                        MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                    }
                     
-                }
+                    if (day-oldDay == 1) && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                        if ((oldHour < savedHour) || (savedHour < currentHour)) && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                            print("TAG15 checking midnight transition 1")
+                            MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                        }
+                        
+                        if (oldHour == savedHour) && (oldMinutes <= savedMinute) && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                            print("TAG15 checking midnight transition 2")
+                            MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                        }
+                        
+                        if (savedHour == currentHour) && (savedMinute <= currentMinute) && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                            print("TAG15 checking midnight transition 3")
+                            MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                        }
+                    } // end of checking day-oldDay
+                    
+                    
+                }// end of for loop
             } //end of if check for EntryDB count
         }
 
-    }
+    } // end of full function
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
