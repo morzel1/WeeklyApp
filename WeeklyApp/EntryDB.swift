@@ -74,6 +74,32 @@ public class EntryDB{
         ReturnFullTable()
     } //end of ConfirmButtonDB func
     
+    //beginnning of delete row
+    func deleteRow(arg rowNum:Int){
+        //var selectStatement: OpaquePointer?
+        var db: OpaquePointer?
+        //var list: Array<EventObject> = []
+        
+        let fileUrl = try! //try is an exception incase something goes wrong
+            FileManager.default.url(for: .documentDirectory, //creates file for document directory
+                in: .userDomainMask, appropriateFor: nil,create: //creates the file inside user domain mask, create true creates a new file every time, false makes it only if it doesn't already exist
+                false).appendingPathComponent("TaskDatabase.sqlite") //the actual file name
+        
+        if sqlite3_open(fileUrl.path, &db) != SQLITE_OK{    //
+            print("Error opening DB")
+        }
+        
+        let updateQuery = "DELETE FROM Tasks WHERE ID = \(EntryDB.MainListStruct.MainList[rowNum].id)"
+        
+        if sqlite3_exec(db, updateQuery,nil,nil,nil) != SQLITE_OK{
+            print("Error updating table")
+        } else {
+            print("Update went well")
+        }
+        
+        ReturnFullTable()
+    }
+    
     //beginning of updateTable
     func updateTableCheckboxPressed(arg entryID:Int){
         print("Called with result \(entryID)")

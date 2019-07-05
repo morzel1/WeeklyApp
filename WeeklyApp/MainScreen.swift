@@ -13,6 +13,8 @@ import UserNotifications
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, UNUserNotificationCenterDelegate  {
     @IBOutlet weak var MainTable: UITableView!
     
+    var deleteRowIndexPath: NSIndexPath? = nil
+    
     
     static var SaveList: Array<String> = []
     static var SaveListIDS: Array<Int> = []
@@ -139,27 +141,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
     }
     
-    
-    //code for the delete table button
-    @IBAction func deleteDB(_ sender: Any) {
-        var db: OpaquePointer?
-        let fileUrl = try! //try is an exception incase something goes wrong
-            FileManager.default.url(for: .documentDirectory, //creates file for document directory
-                in: .userDomainMask, appropriateFor: nil,create: //creates the file inside user domain mask, create true creates a new file every time, false makes it only if it doesn't already exist
-                false).appendingPathComponent("TaskDatabase.sqlite") //the actual file name
-        
-        if sqlite3_open(fileUrl.path, &db) != SQLITE_OK{
-            print("Error opening DB")
-        }
-
-        //delete the table
-        sqlite3_exec(db, "DROP TABLE Tasks",nil,nil,nil)
-        sqlite3_close(db)
-        EntryDB.ReturnFullTable(DBHelper)()
-        self.MainTable.reloadData()
-    }
-    //end of delete db
-    
     //Table view code
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return EntryDB.MainListStruct.MainList.count
@@ -167,6 +148,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
 
     let checkedImage = UIImage(named: "icons8-tick-box-80")! as UIImage
     let uncheckedImage = UIImage(named: "icons8-cancel-80")! as UIImage
+    
+
     
     //customizing the table view, namely the cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -189,6 +172,56 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         cell.separatorInset = UIEdgeInsets.zero
         cell.layoutMargins = UIEdgeInsets.zero
         return cell
+    }
+    
+     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == UITableViewCell.EditingStyle.delete {
+            deleteRowIndexPath = indexPath as NSIndexPath
+            confirmDelete(index: indexPath.row)
+        }
+    }
+
+    
+    func confirmDelete(index: Int) {
+        let alert = UIAlertController(title: "Delete Task", message: "Are you sure you want to permanently delete \(EntryDB.MainListStruct.MainList[index].name)", preferredStyle: .actionSheet)
+        
+        let DeleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: deleteTaskConfirm)
+        let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: cancelDeleteRow)
+        
+                alert.addAction(DeleteAction)
+                alert.addAction(CancelAction)
+        
+                // Support display in iPad
+                //alert.popoverPresentationController?.sourceView = self.view
+                //alert.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
+    func deleteTaskConfirm(alertAction: UIAlertAction!) -> Void{
+        if(EntryDB.MainListStruct.MainList[deleteRowIndexPath!.row].status == "1"){
+            if(!MainScreen.NotificationArray.isEmpty){
+                    var placeHolder = 0
+                    //cancel the notification when the box gets unchecked
+                    for index in 0 ... MainScreen.NotificationArray.count-1{
+                        if(MainScreen.NotificationArray[index].arrayID == deleteRowIndexPath!.row){
+                            placeHolder = index
+                        }
+                    }
+                    UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [MainScreen.NotificationArray[placeHolder].NotifID])
+                    //center.removePendingNotificationRequests(withIdentifiers: [MainScreen.NotificationArray[placeHolder].NotifID])
+                    MainScreen.NotificationArray.remove(at: placeHolder)
+                    MainTable.reloadData()
+                }
+        }
+        
+        DBHelper.deleteRow(arg: deleteRowIndexPath!.row)
+        deleteRowIndexPath = nil
+        MainTable.reloadData()
+    }
+    
+    func cancelDeleteRow(alertAction: UIAlertAction!){
+        deleteRowIndexPath = nil
     }
     //end of table view code
     
@@ -328,7 +361,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         let myarray2 = defaults.array(forKey: "Save2") as? [Int] ?? [Int]()
         //let myarray3 = defaults.array(forKey: "Save3") ?? [String]()
         let myarray3 = "HA"
-        print("TAG5 \(myarray1) : \(myarray2) : \(MainScreen.NotificationArray)")
+        //print("TAG5 \(myarray1) : \(myarray2) : \(MainScreen.NotificationArray)")
+        print("TAG5 \(EntryDB.MainListStruct.MainList)")
         
         /*
         if(MainScreen.NotificationArray.isEmpty){
