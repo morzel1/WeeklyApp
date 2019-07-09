@@ -34,6 +34,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     static var NotificationArray: Array<DataTypes> = []
+    
     /*
     struct NotificationArray{
         static var array: Array<DataTypes> = []
@@ -67,6 +68,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     placeHolder = index
                 }
             }
+print("TAG5 \(MainScreen.NotificationArray[placeHolder].arrayID)")
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [MainScreen.NotificationArray[placeHolder].NotifID])
             //center.removePendingNotificationRequests(withIdentifiers: [MainScreen.NotificationArray[placeHolder].NotifID])
             MainScreen.NotificationArray.remove(at: placeHolder)
@@ -181,9 +183,9 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         }
     }
 
-    
+
     func confirmDelete(index: Int) {
-        let alert = UIAlertController(title: "Delete Task", message: "Are you sure you want to permanently delete \(EntryDB.MainListStruct.MainList[index].name)", preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Delete Task", message: "Are you sure you want to permanently delete: \n \(EntryDB.MainListStruct.MainList[index].name)?", preferredStyle: .actionSheet)
         
         let DeleteAction = UIAlertAction(title: "Delete", style: .destructive, handler: deleteTaskConfirm)
         let CancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: cancelDeleteRow)
@@ -192,8 +194,15 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 alert.addAction(CancelAction)
         
                 // Support display in iPad
-                //alert.popoverPresentationController?.sourceView = self.view
-                //alert.popoverPresentationController?.sourceRect = CGRectMake(self.view.bounds.size.width / 2.0, self.view.bounds.size.height / 2.0, 1.0, 1.0)
+                alert.popoverPresentationController?.sourceView = self.view
+        //alert.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.size.width / 2.0, y: self.view.bounds.size.height / 2.0, width: 1.0, height: 1.0)
+        
+        let screenWidth  = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
+        
+        alert.popoverPresentationController?.permittedArrowDirections = .up
+        
+        alert.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.midX, y: screenHeight / 4.0, width: 0, height: 0)
         
         self.present(alert, animated: true, completion: nil)
     }
@@ -362,7 +371,8 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         //let myarray3 = defaults.array(forKey: "Save3") ?? [String]()
         let myarray3 = "HA"
         //print("TAG5 \(myarray1) : \(myarray2) : \(MainScreen.NotificationArray)")
-        print("TAG5 \(EntryDB.MainListStruct.MainList)")
+        //print("TAG5 \(EntryDB.MainListStruct.MainList)")
+        print("TAG5 \(MainScreen.NotificationArray)")
         
         /*
         if(MainScreen.NotificationArray.isEmpty){
