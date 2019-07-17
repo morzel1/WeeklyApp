@@ -11,6 +11,11 @@ import SQLite3
 import UserNotifications
 
 class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, UNUserNotificationCenterDelegate  {
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     @IBOutlet weak var MainTable: UITableView!
     
     var deleteRowIndexPath: NSIndexPath? = nil

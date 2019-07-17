@@ -11,10 +11,19 @@ import Foundation
 import SQLite3
 
 class TimeSet: UIViewController, UITextFieldDelegate{
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     let timePicker = UIDatePicker()
     let DBHelper = EntryDB()
     var dropMenu = dropDownButton()
     
+    @IBOutlet weak var confirmReference: UIButton!
+    
+    @IBOutlet weak var TaskNameReference: UITextField!
+    
+    @IBOutlet weak var TaskTimeReference: UITextField!
     //Code for the cancel button
     @IBAction func returnToMain(_ sender: Any) {
         self.performSegue(withIdentifier: "TimeToMain", sender: self)
@@ -43,6 +52,7 @@ class TimeSet: UIViewController, UITextFieldDelegate{
         timePicker.datePickerMode = .time
         //picks which part of datepicker is used
         TimePickView.inputView = timePicker
+        
         let toolbar = UIToolbar()
         toolbar.sizeToFit()
         
@@ -97,9 +107,22 @@ class TimeSet: UIViewController, UITextFieldDelegate{
         createDatePicker()
         createNamePicker()
         EventName.delegate = self
+        let borderColor = UIColor.green
+
+        confirmReference.layer.borderWidth = 1
+        confirmReference.layer.borderColor = borderColor.cgColor
+        
+        TaskNameReference.layer.borderWidth = 1
+        TaskNameReference.layer.borderColor = borderColor.cgColor
+        TaskTimeReference.layer.borderWidth = 1
+        TaskTimeReference.layer.borderColor = borderColor.cgColor
+        
         //dropdown menu initialize and creation
         dropMenu = dropDownButton.init(frame: CGRect(x: 0, y:0, width:0, height: 0))
+        dropMenu.layer.borderWidth = 1
+        dropMenu.layer.borderColor = borderColor.cgColor
         dropMenu.setTitle("Day", for: .normal)
+        dropMenu.setTitleColor(UIColor.green, for: .normal)
         dropMenu.titleLabel?.textAlignment = .center
         dropMenu.translatesAutoresizingMaskIntoConstraints = false // turn off auto resize, it messes with the other constraints
         
@@ -144,7 +167,7 @@ class dropDownButton: UIButton, dropDownProtocol{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.darkGray
+        self.backgroundColor = UIColor.black
         dropView = dropDownView.init(frame: CGRect.init(x: 0, y: 0, width: 0, height: 0))
         
         dropView.delegate = self
@@ -225,8 +248,8 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource{
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor.darkGray
-        tableView.backgroundColor  = UIColor.darkGray
+        self.backgroundColor = UIColor.black
+        tableView.backgroundColor  = UIColor.black
         
         tableView.delegate = self
         tableView.dataSource = self
@@ -253,7 +276,11 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         cell.textLabel?.text = dropDownOptions[indexPath.row]
-        cell.backgroundColor = UIColor.darkGray
+        let borderColor = UIColor.green
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = borderColor.cgColor
+        cell.backgroundColor = UIColor.black
+        cell.textLabel?.textColor = UIColor.green
         cell.textLabel?.textAlignment = .center
         return cell
     }
