@@ -162,6 +162,8 @@ print("TAG5 \(MainScreen.NotificationArray[placeHolder].arrayID)")
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! TableView1
         
+        tableView.tableFooterView = UIView(frame: .zero)
+        
         cell.titlecell.text = EntryDB.MainListStruct.MainList[indexPath.row].name
         cell.refcell.text = "Resets every " + EntryDB.MainListStruct.MainList[indexPath.row].day + " at " + EntryDB.MainListStruct.MainList[indexPath.row].time
 
@@ -347,7 +349,7 @@ print("TAG5 \(MainScreen.NotificationArray[placeHolder].arrayID)")
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+    UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         EntryDB.ReturnFullTable(DBHelper)()
         
         //add check here
