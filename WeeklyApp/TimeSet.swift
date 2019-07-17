@@ -108,14 +108,14 @@ class TimeSet: UIViewController, UITextFieldDelegate{
         dropMenu.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true //centers it on the x axis
         dropMenu.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true //centers it on the y axis
         
-        dropMenu.widthAnchor.constraint(equalToConstant: 220).isActive = true //the actual size
-        dropMenu.heightAnchor.constraint(equalToConstant: 80).isActive = true
+        //dropMenu.widthAnchor.constraint(equalToConstant: 220).isActive = true //the actual size
+        //dropMenu.heightAnchor.constraint(equalToConstant: 80).isActive = true
  
-        dropMenu.titleLabel?.font = UIFont(name: (dropMenu.titleLabel?.font.fontName)!, size:38)
-        /*
+        dropMenu.titleLabel?.font = UIFont(name: (dropMenu.titleLabel?.font.fontName)!, size:self.view.frame.size.width/20)
+        
         dropMenu.widthAnchor.constraint(equalToConstant: self.view.frame.size.width/3).isActive = true
         dropMenu.heightAnchor.constraint(equalToConstant: self.view.frame.size.height/20).isActive = true
- */
+ 
         dropMenu.dropView.dropDownOptions = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
         // Do any additional setup after loading the view, typically from a nib.
         
