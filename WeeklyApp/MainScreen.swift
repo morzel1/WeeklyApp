@@ -153,8 +153,8 @@ print("TAG5 \(MainScreen.NotificationArray[placeHolder].arrayID)")
             return EntryDB.MainListStruct.MainList.count
     }
 
-    let checkedImage = UIImage(named: "icons8-tick-box-80")! as UIImage
-    let uncheckedImage = UIImage(named: "icons8-cancel-80")! as UIImage
+    let checkedImage = UIImage(named: "icons8-cancel-84")! as UIImage
+    let uncheckedImage = UIImage(named: "icons8-cancel-81")! as UIImage
     
 
     
