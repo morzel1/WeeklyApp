@@ -222,7 +222,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 if(oldDay == savedDay) && (savedDay == day){
                     if(oldHour <= savedHour && savedHour <= currentHour) && (oldMinutes <= savedMinute && savedMinute <= currentMinute) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                         print("TAG12 BING BING TASK is today")
-                        MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                        MainScreen().DBHelper.updateRestartCheck(arg: EntryDB.MainListStruct.MainList[index].id-1)
                     }
                 }
                 
@@ -339,14 +339,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     if(oldDay == savedDay) && (savedDay == day){
                         if(oldHour <= savedHour && savedHour <= currentHour) && (oldHour != currentHour) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                             print("TAG12 BING BING TASK is today")
-                            MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                            MainScreen().DBHelper.updateRestartCheck(arg: EntryDB.MainListStruct.MainList[index].id-1)
                         }
                         
-                        if(oldHour == currentHour) && (savedHour == currentHour) && (oldMinutes <= savedMinute && savedMinute <= currentMinute)  && (EntryDB.MainListStruct.MainList[index].status == "1"){
+                        if(oldHour == currentHour) && (savedHour == currentHour) && (oldMinutes <= savedMinute && savedMinute <= currentMinute && oldMinutes != currentMinute) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                             print("TAG12 Second check for same day")
-                            MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
-
+                            MainScreen().DBHelper.updateRestartCheck(arg: EntryDB.MainListStruct.MainList[index].id-1)
                         }
+                        
+                        /*
+                        if(oldHour == currentHour) && (savedHour == currentHour) && (oldMinutes == savedMinute && savedMinute == currentMinute) && (currentSecond == 0) && (EntryDB.updateRestartCheck(arg: EntryDB.MainListStruct.MainList[index].id-1)){
+                            
+                        }*/
                     }
                     
                     //use cases i need to cover: transition from saturday to sunday (7 to 1 in day int)
@@ -354,17 +358,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                         if (savedDay == 7) || (savedDay == 1) {
                             if ((oldHour < savedHour) || (savedHour < currentHour)) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                                 print("TAG13 if1 in saturday to sunday transition")
-                                MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                                MainScreen().DBHelper.updateRestartCheck(arg: EntryDB.MainListStruct.MainList[index].id-1)
                             }
                             
                             if (oldHour == savedHour) && (oldMinutes <= savedMinute) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                                 print("TAG13 if2 in saturday to sunday transition")
-                                MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                                MainScreen().DBHelper.updateRestartCheck(arg: EntryDB.MainListStruct.MainList[index].id-1)
                             }
                             
                             if (savedHour == currentHour) && (savedMinute <= currentMinute) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                                 print("TAG13 if3 in saturday to sunday transition")
-                                MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                                MainScreen().DBHelper.updateRestartCheck(arg: EntryDB.MainListStruct.MainList[index].id-1)
                             }
                             
                         }
@@ -375,23 +379,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     // 2) if the gap is 1 day (ex: monday to tuesday) maybe check if New - old = 1 then check the time between old - 24 and 0 - new
                     if(oldDay < savedDay) && (savedDay < day) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                         print("TAG14 checking day with big gap")
-                        MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                        MainScreen().DBHelper.updateRestartCheck(arg: EntryDB.MainListStruct.MainList[index].id-1)
                     }
                     
                     if (day-oldDay == 1) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                         if ((oldHour < savedHour) || (savedHour < currentHour)) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                             print("TAG15 checking midnight transition 1")
-                            MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                            MainScreen().DBHelper.updateRestartCheck(arg: EntryDB.MainListStruct.MainList[index].id-1)
                         }
                         
                         if (oldHour == savedHour) && (oldMinutes <= savedMinute) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                             print("TAG15 checking midnight transition 2")
-                            MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                            MainScreen().DBHelper.updateRestartCheck(arg: EntryDB.MainListStruct.MainList[index].id-1)
                         }
                         
                         if (savedHour == currentHour) && (savedMinute <= currentMinute) && (EntryDB.MainListStruct.MainList[index].status == "1"){
                             print("TAG15 checking midnight transition 3")
-                            MainScreen().DBHelper.updateTableCheckboxPressed(arg: EntryDB.MainListStruct.MainList[index].id-1)
+                            MainScreen().DBHelper.updateRestartCheck(arg: EntryDB.MainListStruct.MainList[index].id-1)
                         }
                     } // end of checking day-oldDay
                     

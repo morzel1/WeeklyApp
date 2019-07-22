@@ -50,6 +50,7 @@ class TimeSet: UIViewController, UITextFieldDelegate{
     @IBOutlet weak var TimePickView: UITextField!
     func createDatePicker(){
         timePicker.datePickerMode = .time
+
         //picks which part of datepicker is used
         TimePickView.inputView = timePicker
         

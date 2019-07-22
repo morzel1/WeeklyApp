@@ -102,8 +102,63 @@ public class EntryDB{
     
     //beginning of updateTable
     func updateTableCheckboxPressed(arg entryID:Int){
-        print("Called with result \(entryID)")
-        print("\(EntryDB.MainListStruct.MainList[entryID])")
+        let DBHelper2 = EntryDB()
+        EntryDB.ReturnFullTable(DBHelper2)()
+        print("TAG 201 \(EntryDB.MainListStruct.MainList)")
+        print("TAG 202 \(entryID)")
+        var entryNum = entryID
+        
+            //var selectStatement: OpaquePointer?
+            var db: OpaquePointer?
+            //var list: Array<EventObject> = []
+            
+            let fileUrl = try! //try is an exception incase something goes wrong
+                FileManager.default.url(for: .documentDirectory, //creates file for document directory
+                    in: .userDomainMask, appropriateFor: nil,create: //creates the file inside user domain mask, create true creates a new file every time, false makes it only if it doesn't already exist
+                    false).appendingPathComponent("TaskDatabase.sqlite") //the actual file name
+            
+            if sqlite3_open(fileUrl.path, &db) != SQLITE_OK{    //
+                print("Error opening DB")
+            }
+            
+            var updateQuery = ""
+            if(Int(EntryDB.MainListStruct.MainList[entryNum].status) == 0){
+                updateQuery = "UPDATE Tasks SET TaskStatus = 1 WHERE ID = \(EntryDB.MainListStruct.MainList[entryNum].id)"
+            } else {
+                updateQuery = "UPDATE Tasks SET TaskStatus = 0 WHERE ID = \(EntryDB.MainListStruct.MainList[entryNum].id)"
+            }
+            
+            print(updateQuery)
+                if sqlite3_exec(db, updateQuery,nil,nil,nil) != SQLITE_OK{
+                    print("Error updating table")
+                } else {
+                    print("Update went well")
+                }
+
+            ReturnFullTable()
+ 
+        
+    }
+
+    
+    //beginning of updateTable
+    func updateRestartCheck(arg entryID:Int){
+        let DBHelper2 = EntryDB()
+        EntryDB.ReturnFullTable(DBHelper2)()
+        print("TAG 201 \(EntryDB.MainListStruct.MainList)")
+        print("TAG 202 \(entryID)")
+        var entryNum = entryID+1
+        
+        
+        
+        
+        for index in 0 ... EntryDB.MainListStruct.MainList.count-1{
+            if EntryDB.MainListStruct.MainList[index].id == entryNum {
+                entryNum = index
+                break
+            }
+            
+        }
         
         //var selectStatement: OpaquePointer?
         var db: OpaquePointer?
@@ -119,22 +174,23 @@ public class EntryDB{
         }
         
         var updateQuery = ""
-        if(Int(EntryDB.MainListStruct.MainList[entryID].status) == 0){
-            updateQuery = "UPDATE Tasks SET TaskStatus = 1 WHERE ID = \(EntryDB.MainListStruct.MainList[entryID].id)"
+        if(Int(EntryDB.MainListStruct.MainList[entryNum].status) == 0){
+            updateQuery = "UPDATE Tasks SET TaskStatus = 1 WHERE ID = \(EntryDB.MainListStruct.MainList[entryNum].id)"
         } else {
-            updateQuery = "UPDATE Tasks SET TaskStatus = 0 WHERE ID = \(EntryDB.MainListStruct.MainList[entryID].id)"
+            updateQuery = "UPDATE Tasks SET TaskStatus = 0 WHERE ID = \(EntryDB.MainListStruct.MainList[entryNum].id)"
         }
         
         print(updateQuery)
-            if sqlite3_exec(db, updateQuery,nil,nil,nil) != SQLITE_OK{
-                print("Error updating table")
-            } else {
-                print("Update went well")
-            }
-
+        if sqlite3_exec(db, updateQuery,nil,nil,nil) != SQLITE_OK{
+            print("Error updating table")
+        } else {
+            print("Update went well")
+        }
+        
         ReturnFullTable()
+        
+        
     }
-
     
     //beginning of return full table
     func ReturnFullTable(){

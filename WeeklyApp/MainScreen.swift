@@ -160,9 +160,11 @@ print("TAG5 \(MainScreen.NotificationArray[placeHolder].arrayID)")
     
     //customizing the table view, namely the cells
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        tableView.tableFooterView = UIView(frame: .zero)
+
+        
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! TableView1
         
-        tableView.tableFooterView = UIView(frame: .zero)
         
         cell.titlecell.text = EntryDB.MainListStruct.MainList[indexPath.row].name
         cell.refcell.text = "Resets every " + EntryDB.MainListStruct.MainList[indexPath.row].day + " at " + EntryDB.MainListStruct.MainList[indexPath.row].time
