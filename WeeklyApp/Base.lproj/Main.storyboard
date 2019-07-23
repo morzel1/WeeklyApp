@@ -23,7 +23,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                 <color key="barTintColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <textAttributes key="titleTextAttributes">
-                                    <color key="textColor" red="0.29531813670000001" green="0.76953125" blue="0.083675789119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="textColor" red="0.29411764705882354" green="0.76862745098039209" blue="0.082352941176470587" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </textAttributes>
                                 <items>
                                     <navigationItem title="Your Tasks" id="4Va-fN-dDB">

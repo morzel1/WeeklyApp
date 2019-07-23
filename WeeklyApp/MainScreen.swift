@@ -148,14 +148,13 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         
     }
     
-    
     //Table view code
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return EntryDB.MainListStruct.MainList.count
     }
-
-    let checkedImage = UIImage(named: "icons8-cancel-84")! as UIImage
-    let uncheckedImage = UIImage(named: "icons8-cancel-81")! as UIImage
+//5-9
+    let checkedImage = UIImage(named: "checked-checkbox-128")! as UIImage
+    let uncheckedImage = UIImage(named: "test22")! as UIImage
     
 
     
