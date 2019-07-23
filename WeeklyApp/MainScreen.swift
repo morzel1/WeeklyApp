@@ -73,14 +73,14 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                     placeHolder = index
                 }
             }
-print("TAG5 \(MainScreen.NotificationArray[placeHolder].arrayID)")
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [MainScreen.NotificationArray[placeHolder].NotifID])
             //center.removePendingNotificationRequests(withIdentifiers: [MainScreen.NotificationArray[placeHolder].NotifID])
             MainScreen.NotificationArray.remove(at: placeHolder)
-            MainTable.reloadData()
+            MainTable.reloadRows(at: MainTable!.indexPathsForVisibleRows!, with: .none)
         }
         
-        MainTable.reloadData()
+        MainTable.reloadRows(at: MainTable!.indexPathsForVisibleRows!, with: .none)
+        //MainTable.reloadData()
     }
     
     //schedules notification when called
@@ -148,6 +148,7 @@ print("TAG5 \(MainScreen.NotificationArray[placeHolder].arrayID)")
         
     }
     
+    
     //Table view code
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
             return EntryDB.MainListStruct.MainList.count
@@ -191,7 +192,7 @@ print("TAG5 \(MainScreen.NotificationArray[placeHolder].arrayID)")
             confirmDelete(index: indexPath.row)
         }
     }
-
+    
 
     func confirmDelete(index: Int) {
         let alert = UIAlertController(title: "Delete Task", message: "Are you sure you want to permanently delete: \n \(EntryDB.MainListStruct.MainList[index].name)?", preferredStyle: .actionSheet)
@@ -390,7 +391,7 @@ print("TAG5 \(MainScreen.NotificationArray[placeHolder].arrayID)")
         }
  */
         
-        MainTable.reloadData()
+        //MainTable.reloadData()
         let date = Date()
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
