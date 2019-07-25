@@ -132,6 +132,12 @@
                                                 <action selector="returnToMain:" destination="ymb-GD-Kux" id="rSx-oA-Sa6"/>
                                             </connections>
                                         </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" title="Done" id="N9x-TT-Dc3">
+                                            <color key="tintColor" red="0.29411764709999999" green="0.76862745099999996" blue="0.08235294118" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                            <connections>
+                                                <action selector="DoneButton:" destination="ymb-GD-Kux" id="wAm-Sc-ECy"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -142,19 +148,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OVC-4C-kgV">
-                                <rect key="frame" x="144.66666666666666" y="667" width="124.99999999999997" height="49"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="49" id="GVx-p3-GhB"/>
-                                </constraints>
-                                <fontDescription key="fontDescription" type="system" pointSize="26"/>
-                                <state key="normal" title="   Confirm   ">
-                                    <color key="titleColor" red="0.29531813670000001" green="0.76953125" blue="0.083675789119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="confirmButton:" destination="ymb-GD-Kux" eventType="touchUpInside" id="DFl-bX-BFL"/>
-                                </connections>
-                            </button>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Task Name:" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iZ8-W1-aGt">
                                 <rect key="frame" x="84" y="108" width="256" height="32"/>
                                 <accessibility key="accessibilityConfiguration">
@@ -185,11 +178,9 @@
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
                         <constraints>
-                            <constraint firstItem="ZE2-3H-rI2" firstAttribute="centerX" secondItem="OVC-4C-kgV" secondAttribute="centerX" id="0yT-t9-aGV"/>
                             <constraint firstItem="oSg-kK-p0q" firstAttribute="top" secondItem="qH3-UK-JYV" secondAttribute="bottom" constant="8" symbolic="YES" id="70s-ZJ-vUd"/>
                             <constraint firstItem="kGq-gq-Xaq" firstAttribute="top" secondItem="iZ8-W1-aGt" secondAttribute="bottom" constant="8" id="7ZE-WC-7XY"/>
                             <constraint firstItem="qH3-UK-JYV" firstAttribute="leading" secondItem="kGq-gq-Xaq" secondAttribute="leading" id="Awv-Mq-JE1"/>
-                            <constraint firstAttribute="bottom" secondItem="OVC-4C-kgV" secondAttribute="bottom" constant="20" symbolic="YES" id="DWX-DE-4fL"/>
                             <constraint firstItem="qH3-UK-JYV" firstAttribute="trailing" secondItem="iZ8-W1-aGt" secondAttribute="trailing" id="FP2-fS-gCX"/>
                             <constraint firstItem="ZE2-3H-rI2" firstAttribute="leading" secondItem="ddt-IM-J7f" secondAttribute="leading" id="G8Q-Wv-XIC"/>
                             <constraint firstItem="oSg-kK-p0q" firstAttribute="leading" secondItem="kGq-gq-Xaq" secondAttribute="leading" id="KPw-wB-YCs"/>
@@ -199,7 +190,7 @@
                             <constraint firstItem="kGq-gq-Xaq" firstAttribute="top" secondItem="ddt-IM-J7f" secondAttribute="top" constant="148" id="fcD-S2-EOc"/>
                             <constraint firstItem="oSg-kK-p0q" firstAttribute="trailing" secondItem="kGq-gq-Xaq" secondAttribute="trailing" id="jxU-Bv-E9T"/>
                             <constraint firstItem="oSg-kK-p0q" firstAttribute="top" secondItem="kGq-gq-Xaq" secondAttribute="bottom" constant="48" id="pd4-IN-tGp"/>
-                            <constraint firstItem="OVC-4C-kgV" firstAttribute="centerX" secondItem="ddt-IM-J7f" secondAttribute="centerX" id="suE-nN-8zL"/>
+                            <constraint firstAttribute="trailing" secondItem="ZE2-3H-rI2" secondAttribute="trailing" id="sIN-pd-0sg"/>
                             <constraint firstItem="ZE2-3H-rI2" firstAttribute="top" secondItem="May-Fh-PZo" secondAttribute="top" id="vTg-Ma-1uF"/>
                             <constraint firstItem="qH3-UK-JYV" firstAttribute="leading" secondItem="oSg-kK-p0q" secondAttribute="leading" id="xhb-Bs-WEf"/>
                             <constraint firstItem="qH3-UK-JYV" firstAttribute="trailing" secondItem="oSg-kK-p0q" secondAttribute="trailing" id="y4C-A7-lkF"/>
@@ -211,7 +202,6 @@
                         <outlet property="TaskNameReference" destination="kGq-gq-Xaq" id="Piw-1t-kXw"/>
                         <outlet property="TaskTimeReference" destination="oSg-kK-p0q" id="FC2-KF-uwj"/>
                         <outlet property="TimePickView" destination="oSg-kK-p0q" id="gLb-OH-Wox"/>
-                        <outlet property="confirmReference" destination="OVC-4C-kgV" id="7UZ-GR-3fu"/>
                         <segue destination="BYZ-38-t0r" kind="showDetail" identifier="TimeToMain" id="NQf-K0-mFH"/>
                     </connections>
                 </viewController>

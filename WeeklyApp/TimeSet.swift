@@ -19,8 +19,6 @@ class TimeSet: UIViewController, UITextFieldDelegate{
     let DBHelper = EntryDB()
     var dropMenu = dropDownButton()
     
-    @IBOutlet weak var confirmReference: UIButton!
-    
     @IBOutlet weak var TaskNameReference: UITextField!
     
     @IBOutlet weak var TaskTimeReference: UITextField!
@@ -30,10 +28,9 @@ class TimeSet: UIViewController, UITextFieldDelegate{
     }
     //End of cancel button
     
-    //Code for confirm button
-    @IBAction func confirmButton(_ sender: Any) {
-        //check for empty field
-        if(EventName.text != nil && EventName.text != "" && TimePickView.text != "" && TimePickView.text != nil && dropMenu.titleLabel?.text! != "Day"){ 
+    //beginning of done button
+    @IBAction func DoneButton(_ sender: Any) {
+        if(EventName.text != nil && EventName.text != "" && TimePickView.text != "" && TimePickView.text != nil && dropMenu.titleLabel?.text! != "Day"){
             EntryDB.ConfirmButtonDB(DBHelper)(arg: EventName.text!, arg: TimePickView.text!, arg: (dropMenu.titleLabel?.text!)!)
             self.performSegue(withIdentifier: "TimeToMain", sender: self)
         } else{
@@ -44,7 +41,7 @@ class TimeSet: UIViewController, UITextFieldDelegate{
             self.present(alertController, animated: true, completion: nil)
         }
     }
-    //End of confirm button
+    //end of done button
     
     //Code for time picker field, perhaps make it bigger
     @IBOutlet weak var TimePickView: UITextField!
@@ -64,7 +61,7 @@ class TimeSet: UIViewController, UITextFieldDelegate{
         
     }
     
-    //code for when the confirm button is clicked
+    //code for when the done bar item button is clicked
     @objc func doneClicked(){
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .none
@@ -110,8 +107,6 @@ class TimeSet: UIViewController, UITextFieldDelegate{
         EventName.delegate = self
         let borderColor = UIColor.green
 
-        confirmReference.layer.borderWidth = 1
-        confirmReference.layer.borderColor = borderColor.cgColor
         
         TaskNameReference.layer.borderWidth = 1
         TaskNameReference.layer.borderColor = borderColor.cgColor
