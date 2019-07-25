@@ -20,6 +20,18 @@
 		27CD4C14226E506A00775E73 /* NotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27CD4C13226E506A00775E73 /* NotificationViewController.swift */; };
 		27CD4C17226E506A00775E73 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 27CD4C15226E506A00775E73 /* MainInterface.storyboard */; };
 		27CD4C1B226E506A00775E73 /* Notifications.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 27CD4C0C226E506900775E73 /* Notifications.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		39B2F1EB22EA2015004BB589 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F1EA22EA2015004BB589 /* GoogleMobileAds.framework */; };
+		39B2F1ED22EA2035004BB589 /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F1EC22EA2035004BB589 /* EventKit.framework */; };
+		39B2F1EF22EA203E004BB589 /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F1EE22EA203E004BB589 /* EventKitUI.framework */; };
+		39B2F1F122EA2046004BB589 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F1F022EA2046004BB589 /* AVFoundation.framework */; };
+		39B2F1F322EA204C004BB589 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F1F222EA204C004BB589 /* AdSupport.framework */; };
+		39B2F1F522EA2054004BB589 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F1F422EA2054004BB589 /* AudioToolbox.framework */; };
+		39B2F1F722EA2067004BB589 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F1F622EA2067004BB589 /* CoreGraphics.framework */; };
+		39B2F1F922EA206E004BB589 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F1F822EA206E004BB589 /* CoreTelephony.framework */; };
+		39B2F1FB22EA2074004BB589 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F1FA22EA2074004BB589 /* CoreMedia.framework */; };
+		39B2F1FD22EA207B004BB589 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F1FC22EA207B004BB589 /* MessageUI.framework */; };
+		39B2F1FF22EA2082004BB589 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F1FE22EA2082004BB589 /* StoreKit.framework */; };
+		39B2F20122EA2089004BB589 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 39B2F20022EA2089004BB589 /* SystemConfiguration.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,6 +75,18 @@
 		27CD4C13226E506A00775E73 /* NotificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewController.swift; sourceTree = "<group>"; };
 		27CD4C16226E506A00775E73 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		27CD4C18226E506A00775E73 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		39B2F1EA22EA2015004BB589 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = WeeklyApp/GoogleMobileAds.framework; sourceTree = "<group>"; };
+		39B2F1EC22EA2035004BB589 /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		39B2F1EE22EA203E004BB589 /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
+		39B2F1F022EA2046004BB589 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		39B2F1F222EA204C004BB589 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		39B2F1F422EA2054004BB589 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		39B2F1F622EA2067004BB589 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		39B2F1F822EA206E004BB589 /* CoreTelephony.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreTelephony.framework; path = System/Library/Frameworks/CoreTelephony.framework; sourceTree = SDKROOT; };
+		39B2F1FA22EA2074004BB589 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		39B2F1FC22EA207B004BB589 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		39B2F1FE22EA2082004BB589 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		39B2F20022EA2089004BB589 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +94,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				39B2F20122EA2089004BB589 /* SystemConfiguration.framework in Frameworks */,
+				39B2F1FF22EA2082004BB589 /* StoreKit.framework in Frameworks */,
+				39B2F1FD22EA207B004BB589 /* MessageUI.framework in Frameworks */,
+				39B2F1FB22EA2074004BB589 /* CoreMedia.framework in Frameworks */,
+				39B2F1F922EA206E004BB589 /* CoreTelephony.framework in Frameworks */,
+				39B2F1F722EA2067004BB589 /* CoreGraphics.framework in Frameworks */,
+				39B2F1F122EA2046004BB589 /* AVFoundation.framework in Frameworks */,
+				39B2F1F522EA2054004BB589 /* AudioToolbox.framework in Frameworks */,
+				39B2F1F322EA204C004BB589 /* AdSupport.framework in Frameworks */,
+				39B2F1EF22EA203E004BB589 /* EventKitUI.framework in Frameworks */,
+				39B2F1ED22EA2035004BB589 /* EventKit.framework in Frameworks */,
+				39B2F1EB22EA2015004BB589 /* GoogleMobileAds.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -123,6 +159,18 @@
 		27CD4C0D226E506A00775E73 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				39B2F20022EA2089004BB589 /* SystemConfiguration.framework */,
+				39B2F1FE22EA2082004BB589 /* StoreKit.framework */,
+				39B2F1FC22EA207B004BB589 /* MessageUI.framework */,
+				39B2F1FA22EA2074004BB589 /* CoreMedia.framework */,
+				39B2F1F822EA206E004BB589 /* CoreTelephony.framework */,
+				39B2F1F622EA2067004BB589 /* CoreGraphics.framework */,
+				39B2F1F422EA2054004BB589 /* AudioToolbox.framework */,
+				39B2F1F222EA204C004BB589 /* AdSupport.framework */,
+				39B2F1F022EA2046004BB589 /* AVFoundation.framework */,
+				39B2F1EE22EA203E004BB589 /* EventKitUI.framework */,
+				39B2F1EC22EA2035004BB589 /* EventKit.framework */,
+				39B2F1EA22EA2015004BB589 /* GoogleMobileAds.framework */,
 				27CD4C0E226E506A00775E73 /* UserNotifications.framework */,
 				27CD4C10226E506A00775E73 /* UserNotificationsUI.framework */,
 			);
@@ -426,6 +474,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5V6V9KWT88;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WeeklyApp",
+				);
 				INFOPLIST_FILE = WeeklyApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -448,6 +501,11 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5V6V9KWT88;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/WeeklyApp",
+				);
 				INFOPLIST_FILE = WeeklyApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
