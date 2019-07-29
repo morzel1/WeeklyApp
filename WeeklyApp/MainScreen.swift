@@ -56,7 +56,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     //code for the checkbox whenever it is clicked
     @IBAction func checkBoxPressed(_ sender: UIButton) {
-        let center = UNUserNotificationCenter.current()
         let buttonTag = sender.tag
         DBHelper.updateTableCheckboxPressed(arg: buttonTag)
         
@@ -87,8 +86,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     //schedules notification when called
     func scheduleNotification(arg entryID:Int) {
-        let center = UNUserNotificationCenter.current()
-        
         let stringDate = EntryDB.MainListStruct.MainList[entryID].time
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "hh:mm a"
@@ -136,15 +133,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
             
             let elm = DataTypes(arrayID: entryID, NotifID: idHold)
             MainScreen.NotificationArray.append(elm)
-            
-
-            //insert MainScreen.NotificationArray saver
-            //UserDefaults.standard.set(try? PropertyListEncoder().encode(MainScreen.NotificationArray), forKey: "Save3")
-            /*
-            var defaults = UserDefaults.standard
-            let encodedData: Data = NSKeyedArchiver.archivedData(withRootObject: MainScreen.NotificationArray)
-            defaults.set(encodedData, forKey: "Save3")
- */
         }
         
         
@@ -208,7 +196,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
                 alert.popoverPresentationController?.sourceView = self.view
         //alert.popoverPresentationController?.sourceRect = CGRect(x: self.view.bounds.size.width / 2.0, y: self.view.bounds.size.height / 2.0, width: 1.0, height: 1.0)
         
-        let screenWidth  = UIScreen.main.bounds.width
         let screenHeight = UIScreen.main.bounds.height
         
         alert.popoverPresentationController?.permittedArrowDirections = .up
@@ -244,104 +231,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         deleteRowIndexPath = nil
     }
     //end of table view code
-    
-    /*
-    func compareNotifications(){
-        MainScreen.SaveList.removeAll()
-        MainScreen.SaveListIDS.removeAll()
-        let defaults = UserDefaults.standard
-        defaults.set(MainScreen.SaveList, forKey: "Save1")
-        defaults.set(MainScreen.SaveListIDS, forKey: "Save2")
-        //load in MainScreen.NotificationArray
-        print("TAG2 Spot1 \(MainScreen.NotificationArray)")
 
-        
-        if(!MainScreen.NotificationArray.isEmpty){
-            UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
-                for request in requests{
-                    print("TAG2 Spot2 \(MainScreen.NotificationArray)")
-                    for index in 0 ... MainScreen.NotificationArray.count-1{
-                        if(MainScreen.NotificationArray[index].NotifID.contains(request.identifier)){
-                            MainScreen.SaveList.append(request.identifier)
-                            MainScreen.SaveListIDS.append(MainScreen.NotificationArray[index].arrayID)
-
-                        }
-                    } //end of notification array loop
-                } // end of notification array
-                let defaults = UserDefaults.standard
-                defaults.set(MainScreen.SaveList, forKey: "Save1")
-                defaults.set(MainScreen.SaveListIDS, forKey: "Save2")
-            })
-
-        }
- 
-    }
-    
-    func deleteTasks(){
-        MainScreen.NotificationArray = []
-        
-        let defaults = UserDefaults.standard
-        let myarray1 = defaults.stringArray(forKey: "Save1") ?? [String]()
-        let myarray2 = defaults.array(forKey: "Save2") as? [Int] ?? [Int]()
-        MainScreen.SaveList = myarray1
-        MainScreen.SaveListIDS = myarray2
-        
-        //if(!MainScreen.SaveList.isEmpty && !MainScreen.SaveListIDS.isEmpty){
-            UNUserNotificationCenter.current().getPendingNotificationRequests(completionHandler: {requests -> () in
-                for request in requests{
-                    if(MainScreen.SaveList.contains(request.identifier)){
-                        let elm = DataTypes(arrayID: MainScreen.SaveListIDS[MainScreen.SaveList.firstIndex(of: request.identifier)!], NotifID: request.identifier)
-                        MainScreen.NotificationArray.append(elm)
-                    } else {
-                   UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: [request.identifier])
-                    }
-                }
-                
-                //insert MainScreen.NotificationArray saver
-            })
-        //}
-        //EntryDB ID is always 1 higher than the SAVELIST one, add 1 to save list id
-        
-        if(MainScreen.SaveListIDS.isEmpty && !EntryDB.MainListStruct.MainList.isEmpty){
-            if(EntryDB.MainListStruct.MainList[0].status == "1"){
-                DBHelper.updateTableCheckboxPressed(arg:                 EntryDB.MainListStruct.MainList[0].id-1)
-            }
-        }
-        
-        if(!MainScreen.SaveListIDS.isEmpty && !EntryDB.MainListStruct.MainList.isEmpty){
-            //do a check here between the MainScreen.MainList ids to the ids of saveListIDS
-            for index in 0 ... EntryDB.MainListStruct.MainList.count-1{
-                
-                
-                for index2 in 0 ... MainScreen.SaveListIDS.count-1{
-                    //let found = EntryDB.MainListStruct.MainList.contains{ $0.id == MainScreen.SaveListIDS[index2]+1}
-                    /*
-                    if(EntryDB.MainListStruct.MainList.contains{ $0.id == MainScreen.SaveListIDS[index2]+1}){
-                        print("TAG5 item found")
-                        print("TAG5 \(EntryDB.MainListStruct.MainList[index].id), \(MainScreen.SaveListIDS[index2]+1)")
-                    } else {
-                        print("TAG5 checkbox SWAP")
-                        print("TAG5 \(EntryDB.MainListStruct.MainList[index].id), \(MainScreen.SaveListIDS[index2]+1)")
-                        DBHelper.updateTableCheckboxPressed(arg: index)
-                    }*/
-                    
-                    if(MainScreen.SaveListIDS.contains(EntryDB.MainListStruct.MainList[index].id-1)){
-                        /*
-                        print("TAG5 item found")
-                        print("TAG5 \(EntryDB.MainListStruct.MainList[index].id), \(MainScreen.SaveListIDS[index2]+1)")
-                        */
-                    } else {
-                        if(EntryDB.MainListStruct.MainList[index].status == "1"){
-                            DBHelper.updateTableCheckboxPressed(arg:                         EntryDB.MainListStruct.MainList[index].id-1)
-                        }
-                    }
-                }
-                
-                
-            }
-        }
-    }
-    */
     func refreshScreen(){
         MainTable.reloadData()
     }
@@ -353,10 +243,10 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     var adMobBannerView = GADBannerView()
     
     //real banner
-    //let ADMOB_BANNER_UNIT_ID = "ca-app-pub-2287959670984169/7335978702"
+    let ADMOB_BANNER_UNIT_ID = "ca-app-pub-2287959670984169/7335978702"
 
     //test banner
-    let ADMOB_BANNER_UNIT_ID = "ca-app-pub-3940256099942544/2934735716"
+    //let ADMOB_BANNER_UNIT_ID = "ca-app-pub-3940256099942544/2934735716"
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -385,22 +275,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     
     @objc func repeatingTimeCheck()
     {
-        let defaults = UserDefaults.standard
-        let myarray1 = defaults.stringArray(forKey: "Save1") ?? [String]()
-        let myarray2 = defaults.array(forKey: "Save2") as? [Int] ?? [Int]()
-        //let myarray3 = defaults.array(forKey: "Save3") ?? [String]()
-        let myarray3 = "HA"
-        //print("TAG5 \(myarray1) : \(myarray2) : \(MainScreen.NotificationArray)")
-        //print("TAG5 \(EntryDB.MainListStruct.MainList)")
-        print("TAG5 \(MainScreen.NotificationArray)")
-        
-        /*
-        if(MainScreen.NotificationArray.isEmpty){
-        }else{
-            MainScreen().compareNotifications()
-        }
- */
-        
         //MainTable.reloadData()
         let date = Date()
         let calendar = Calendar.current
@@ -425,12 +299,6 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
         } else if (day == 7){
             compareDay = "Saturday"
         }
-        //print(hour, " " , minutes, " " , seconds, "  " , day)
-        //1 is sunday, 7 is saturday
-        //time is 24 hour format
-        //this type of timer does NOT run in the background even if the app isn't fully closed
-        
-
         
         if(EntryDB.MainListStruct.MainList.count > 0){
             for index in 0...EntryDB.MainListStruct.MainList.count-1{
@@ -543,12 +411,12 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     }
     
     // AdMob banner available
-    func adViewDidReceiveAd(_ view: GADBannerView!) {
+    func adViewDidReceiveAd(_ view: GADBannerView) {
         showBanner(adMobBannerView)
     }
     
     // NO AdMob banner available
-    func adView(_ view: GADBannerView!, didFailToReceiveAdWithError error: GADRequestError!) {
+    func adView(_ view: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
         hideBanner(adMobBannerView)
     }
 

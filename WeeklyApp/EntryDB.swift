@@ -32,15 +32,15 @@ public class EntryDB{
                 false).appendingPathComponent("TaskDatabase.sqlite") //the actual file name
         
         if sqlite3_open(fileUrl.path, &db) != SQLITE_OK{    //
-            print("Error opening DB file")
+            //print("Error opening DB file")
         }
         
         let createTableQuery = "CREATE TABLE IF NOT EXISTS Tasks (id INTEGER PRIMARY KEY AUTOINCREMENT, TaskName TEXT NOT NULL, TaskTime TEXT NOT NULL, TaskDay TEXT NOT NULL, TaskStatus BOOL NOT NULL)"
         
         if sqlite3_exec(db, createTableQuery,nil,nil,nil) != SQLITE_OK{
-            print("Error creating table")
+            //print("Error creating table")
         } else {
-            print("Everything is ok")
+            //print("Everything is ok")
         }
 
         
@@ -53,23 +53,23 @@ public class EntryDB{
         let insertQuery = "INSERT INTO Tasks(TaskName, TaskTime, TaskDay, TaskStatus) VALUES (?,?,?,0)"
         
         if sqlite3_prepare(db, insertQuery, -1, &stmt, nil) != SQLITE_OK{
-            print("Error running query")
+            //print("Error running query")
         } else {
-            print("All is well")
+            //print("All is well")
         }
         
         if sqlite3_bind_text(stmt, 1, (taskName as NSString).utf8String, -1, nil) != SQLITE_OK{
-            print("Error binding name")
+            //print("Error binding name")
         }
         if sqlite3_bind_text(stmt, 2, (taskTime as NSString).utf8String, -1, nil) != SQLITE_OK{
-            print("Error binding time")
+            //print("Error binding time")
         }
         if sqlite3_bind_text(stmt, 3, (taskDay as NSString).utf8String, -1, nil) != SQLITE_OK{
-            print("Error binding Day")
+            //print("Error binding Day")
         }
         
         if sqlite3_step(stmt) == SQLITE_DONE{
-            print("SQlite ran")
+            //print("SQlite ran")
         }
         ReturnFullTable()
     } //end of ConfirmButtonDB func
@@ -86,15 +86,15 @@ public class EntryDB{
                 false).appendingPathComponent("TaskDatabase.sqlite") //the actual file name
         
         if sqlite3_open(fileUrl.path, &db) != SQLITE_OK{    //
-            print("Error opening DB")
+            //print("Error opening DB")
         }
         
         let updateQuery = "DELETE FROM Tasks WHERE ID = \(EntryDB.MainListStruct.MainList[rowNum].id)"
         
         if sqlite3_exec(db, updateQuery,nil,nil,nil) != SQLITE_OK{
-            print("Error updating table")
+            //print("Error updating table")
         } else {
-            print("Update went well")
+            //print("Update went well")
         }
         
         ReturnFullTable()
@@ -104,9 +104,7 @@ public class EntryDB{
     func updateTableCheckboxPressed(arg entryID:Int){
         let DBHelper2 = EntryDB()
         EntryDB.ReturnFullTable(DBHelper2)()
-        print("TAG 201 \(EntryDB.MainListStruct.MainList)")
-        print("TAG 202 \(entryID)")
-        var entryNum = entryID
+        let entryNum = entryID
         
             //var selectStatement: OpaquePointer?
             var db: OpaquePointer?
@@ -118,7 +116,7 @@ public class EntryDB{
                     false).appendingPathComponent("TaskDatabase.sqlite") //the actual file name
             
             if sqlite3_open(fileUrl.path, &db) != SQLITE_OK{    //
-                print("Error opening DB")
+                //print("Error opening DB")
             }
             
             var updateQuery = ""
@@ -128,11 +126,10 @@ public class EntryDB{
                 updateQuery = "UPDATE Tasks SET TaskStatus = 0 WHERE ID = \(EntryDB.MainListStruct.MainList[entryNum].id)"
             }
             
-            print(updateQuery)
                 if sqlite3_exec(db, updateQuery,nil,nil,nil) != SQLITE_OK{
-                    print("Error updating table")
+                    //print("Error updating table")
                 } else {
-                    print("Update went well")
+                    //print("Update went well")
                 }
 
             ReturnFullTable()
@@ -145,8 +142,6 @@ public class EntryDB{
     func updateRestartCheck(arg entryID:Int){
         let DBHelper2 = EntryDB()
         EntryDB.ReturnFullTable(DBHelper2)()
-        print("TAG 201 \(EntryDB.MainListStruct.MainList)")
-        print("TAG 202 \(entryID)")
         var entryNum = entryID+1
         
         
@@ -170,7 +165,7 @@ public class EntryDB{
                 false).appendingPathComponent("TaskDatabase.sqlite") //the actual file name
         
         if sqlite3_open(fileUrl.path, &db) != SQLITE_OK{    //
-            print("Error opening DB")
+            //print("Error opening DB")
         }
         
         var updateQuery = ""
@@ -180,11 +175,10 @@ public class EntryDB{
             updateQuery = "UPDATE Tasks SET TaskStatus = 0 WHERE ID = \(EntryDB.MainListStruct.MainList[entryNum].id)"
         }
         
-        print(updateQuery)
         if sqlite3_exec(db, updateQuery,nil,nil,nil) != SQLITE_OK{
-            print("Error updating table")
+            //print("Error updating table")
         } else {
-            print("Update went well")
+            //print("Update went well")
         }
         
         ReturnFullTable()
@@ -204,7 +198,7 @@ public class EntryDB{
                 false).appendingPathComponent("TaskDatabase.sqlite") //the actual file name
         
         if sqlite3_open(fileUrl.path, &db) != SQLITE_OK{    //
-            print("Error opening DB")
+            //print("Error opening DB")
         }
         
         let selectSql = "select * from Tasks"

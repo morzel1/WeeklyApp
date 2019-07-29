@@ -32,7 +32,7 @@ class TimeSet: UIViewController, UITextFieldDelegate, GADBannerViewDelegate{
     
     //beginning of done button
     @IBAction func DoneButton(_ sender: Any) {
-        if(EventName.text != nil && EventName.text != "" && TimePickView.text != "" && TimePickView.text != nil && dropMenu.titleLabel?.text! != "Day"){
+        if(EventName.text != nil && EventName.text != "" && TimePickView.text != "" && TimePickView.text != "Select a time" && EventName.text != "  Task Name  " && TimePickView.text != nil && dropMenu.titleLabel?.text! != "Day"){
             EntryDB.ConfirmButtonDB(DBHelper)(arg: EventName.text!, arg: TimePickView.text!, arg: (dropMenu.titleLabel?.text!)!)
             self.performSegue(withIdentifier: "TimeToMain", sender: self)
         } else{
@@ -44,6 +44,36 @@ class TimeSet: UIViewController, UITextFieldDelegate, GADBannerViewDelegate{
         }
     }
     //end of done button
+    @IBOutlet weak var EventNameRef: UITextField!
+    
+    @IBAction func textViewOnClick(_ sender: Any) {
+        if EventNameRef.textColor == UIColor.lightGray {
+            EventNameRef.text = nil
+            EventNameRef.textColor = UIColor.green
+        }
+    }
+    
+    @IBAction func textViewOnFinish(_ sender: Any) {
+        if EventNameRef.text == nil || EventNameRef.text == ""{
+            EventNameRef.text = "  Task Name  "
+            EventNameRef.textColor = UIColor.lightGray
+        }
+    }
+    
+    @IBOutlet weak var taskTimeRef: UITextField!
+    
+    @IBAction func timeViewClick(_ sender: Any) {
+        if taskTimeRef.textColor == UIColor.lightGray {
+            taskTimeRef.text = nil
+            taskTimeRef.textColor = UIColor.green
+        }
+    }
+    @IBAction func timeViewEnd(_ sender: Any) {
+        if taskTimeRef.text == nil{
+            taskTimeRef.text = "Select a time"
+            taskTimeRef.textColor = UIColor.lightGray
+        }
+    }
     
     //Code for time picker field, perhaps make it bigger
     @IBOutlet weak var TimePickView: UITextField!
@@ -95,8 +125,6 @@ class TimeSet: UIViewController, UITextFieldDelegate, GADBannerViewDelegate{
         }else{
             EventName.resignFirstResponder()
         }
-        let name: String = EventName.text!
-        print("\(name)")
         return true
     }
     //End of name picker
@@ -104,15 +132,24 @@ class TimeSet: UIViewController, UITextFieldDelegate, GADBannerViewDelegate{
     var adMobBannerView = GADBannerView()
     
     //real banner
-    //let ADMOB_BANNER_UNIT_ID = "ca-app-pub-2287959670984169/7335978702"
+    let ADMOB_BANNER_UNIT_ID = "ca-app-pub-2287959670984169/7335978702"
     
     //test banner
-    let ADMOB_BANNER_UNIT_ID = "ca-app-pub-3940256099942544/2934735716"
+    //let ADMOB_BANNER_UNIT_ID = "ca-app-pub-3940256099942544/2934735716"
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initAdMobBanner()
 
+        EventNameRef.text = "  Task Name  "
+        EventNameRef.textColor = UIColor.lightGray
+        EventNameRef.clipsToBounds = true;
+        EventNameRef.layer.cornerRadius = 10.0;
+        
+        taskTimeRef.text = "Select a time"
+        taskTimeRef.textColor = UIColor.lightGray
+        taskTimeRef.clipsToBounds = true;
+        taskTimeRef.layer.cornerRadius = 10.0;
         //initializes the time picker
         createDatePicker()
         createNamePicker()
@@ -148,6 +185,9 @@ class TimeSet: UIViewController, UITextFieldDelegate, GADBannerViewDelegate{
         dropMenu.heightAnchor.constraint(equalToConstant: self.view.frame.size.height/20).isActive = true
  
         dropMenu.dropView.dropDownOptions = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"]
+        
+        dropMenu.clipsToBounds = true;
+        dropMenu.layer.cornerRadius = 10.0;
         // Do any additional setup after loading the view, typically from a nib.
         
 
@@ -193,12 +233,12 @@ class TimeSet: UIViewController, UITextFieldDelegate, GADBannerViewDelegate{
     }
     
     // AdMob banner available
-    func adViewDidReceiveAd(_ view: GADBannerView!) {
+    func adViewDidReceiveAd(_ view: GADBannerView) {
         showBanner(adMobBannerView)
     }
     
     // NO AdMob banner available
-    func adView(_ view: GADBannerView!, didFailToReceiveAdWithError error: GADRequestError!) {
+    func adView(_ view: GADBannerView, didFailToReceiveAdWithError error: GADRequestError) {
         hideBanner(adMobBannerView)
     }
     
@@ -241,6 +281,8 @@ class dropDownButton: UIButton, dropDownProtocol{
         dropView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         dropView.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         height = dropView.heightAnchor.constraint(equalToConstant: 0)
+        
+        
     }
     
     var isOpen = false
@@ -339,12 +381,13 @@ class dropDownView: UIView, UITableViewDelegate, UITableViewDataSource{
         cell.backgroundColor = UIColor.black
         cell.textLabel?.textColor = UIColor.green
         cell.textLabel?.textAlignment = .center
+        cell.clipsToBounds = true;
+        cell.layer.cornerRadius = 10.0;
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.delegate.dropDownPressed(string: dropDownOptions[indexPath.row]) //this passes the string back up to the set title
-        //print(dropDownOptions[indexPath.row])
         self.tableView.deselectRow(at: indexPath, animated: true)
     }
     

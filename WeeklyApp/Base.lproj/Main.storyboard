@@ -148,8 +148,12 @@
                                 <color key="textColor" red="0.29531813670000001" green="0.76953125" blue="0.083675789119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="textViewOnClick:" destination="ymb-GD-Kux" eventType="editingDidBegin" id="vpr-Oa-gsI"/>
+                                    <action selector="textViewOnFinish:" destination="ymb-GD-Kux" eventType="editingDidEnd" id="mx6-zj-VKs"/>
+                                </connections>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Task Name:" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iZ8-W1-aGt">
+                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Task Name:" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="iZ8-W1-aGt">
                                 <rect key="frame" x="84" y="108" width="256" height="32"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
@@ -159,7 +163,7 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="26"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Task Time:" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qH3-UK-JYV">
+                            <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Task Time:" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="qH3-UK-JYV">
                                 <rect key="frame" x="84" y="189" width="256" height="32"/>
                                 <accessibility key="accessibilityConfiguration">
                                     <accessibilityTraits key="traits" notEnabled="YES"/>
@@ -175,6 +179,10 @@
                                 <color key="textColor" red="0.29531813670000001" green="0.76953125" blue="0.083675789119999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                 <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <action selector="timeViewClick:" destination="ymb-GD-Kux" eventType="editingDidBegin" id="laY-8Z-Cmu"/>
+                                    <action selector="timeViewEnd:" destination="ymb-GD-Kux" eventType="editingDidEnd" id="2xQ-oS-Dsa"/>
+                                </connections>
                             </textField>
                         </subviews>
                         <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -200,9 +208,11 @@
                     </view>
                     <connections>
                         <outlet property="EventName" destination="kGq-gq-Xaq" id="IJb-zf-VcM"/>
+                        <outlet property="EventNameRef" destination="kGq-gq-Xaq" id="OXa-Ce-NAX"/>
                         <outlet property="TaskNameReference" destination="kGq-gq-Xaq" id="Piw-1t-kXw"/>
                         <outlet property="TaskTimeReference" destination="oSg-kK-p0q" id="FC2-KF-uwj"/>
                         <outlet property="TimePickView" destination="oSg-kK-p0q" id="gLb-OH-Wox"/>
+                        <outlet property="taskTimeRef" destination="oSg-kK-p0q" id="GfL-n9-wSr"/>
                         <segue destination="BYZ-38-t0r" kind="showDetail" identifier="TimeToMain" id="NQf-K0-mFH"/>
                     </connections>
                 </viewController>
