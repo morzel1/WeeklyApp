@@ -152,6 +152,7 @@ class MainScreen: UIViewController, UITableViewDelegate, UITableViewDataSource, 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         tableView.tableFooterView = UIView(frame: .zero)
 
+        tableView.allowsSelection = false
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell1", for: indexPath) as! TableView1
         
